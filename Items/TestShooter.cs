@@ -10,9 +10,17 @@ namespace BTDMod.Items
         public override void SetDefaults()
         {
             Item.damage = 1;
+            Item.noMelee = true;
             Item.DamageType = DamageClass.Generic;
             Item.shoot = ModContent.ProjectileType<UltraJuggernaut>();
-            Item.shootSpeed = 1;
+            Item.shootSpeed = 10;
+            Item.useTime = 60;
+            Item.useAnimation = 60;
+            Item.useStyle = ItemUseStyleID.MowTheLawn;
+            Item.rare = 2;
+            Item.autoReuse = true;
+            Item.width = 32;
+            Item.height = 32;
         }
         public override void SetStaticDefaults()
         {

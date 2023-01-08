@@ -13,11 +13,13 @@ namespace BTDMod.Projectiles
         int originalPenetrate;
         public override void SetDefaults()
         {
+            Projectile.damage = 1;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 200;
             originalPenetrate = Projectile.penetrate;
             Projectile.width = 64;
             Projectile.height = 60;
+            Projectile.friendly = true;
         }
         public override void SetStaticDefaults()
         {
@@ -25,8 +27,10 @@ namespace BTDMod.Projectiles
         }
         public override void AI()
         {
+            // split the projectile 
             if (Projectile.penetrate == originalPenetrate / 2) {
-                SplitProjectile(Projectile.velocity);
+                SplitProjectile(Projectile.velocity, true);
+                Projectile.penetrate--;
             }
             base.AI();
         }
@@ -45,23 +49,35 @@ namespace BTDMod.Projectiles
             }
             if (totalCollisions > 1)
             {
-                SplitProjectile(Projectile.velocity);
-            }
-            if (totalCollisions > 2) {
+                SplitProjectile(Projectile.velocity, true);
                 Projectile.Kill();
             }
             return false;
         }
-        private void SplitProjectile(Vector2 velocity) {
-            velocity.Normalize();
-            
-            // calculate vectors 30 degrees apart from the original 
-            float newAngle = (float)Math.Atan(velocity.Y / velocity.X) - 0.523599f;
-            Vector2 direction  =  new((float) Math.Cos(newAngle), (float) Math.Sin(newAngle));
+        public override void Kill(int timeLeft)
+        {
+            SplitProjectile(Projectile.velocity, false);
+            base.Kill(timeLeft);
+        }
+        private void SplitProjectile(Vector2 velocity, bool offset) {
+            Vector2 oldAngle = velocity;
+            oldAngle.Normalize();
+            float newAngle;
+            if (offset)
+            {
+                // calculate vectors 30 degrees apart from the original (the number is 30 degrees in radians(0.523599f))
+                newAngle = (float)Math.Atan(oldAngle.Y / oldAngle.X) + 0.523599f;
+            } else {
+                newAngle = (float)Math.Atan(oldAngle.Y / oldAngle.X);
+            }
+            Vector2 direction = new((float) Math.Cos(newAngle), (float) Math.Sin(newAngle));
             // summon new juggernaut projectile 60 degrees apart from each other
             for (int i = 0; i < 6; i++)
             {
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, Projectile.velocity.Length() * direction, ModContent.ProjectileType<Juggernaut>(), Projectile.damage, 0);
+                // recalculate next projectiles direction 60(1.0472f) degrees away from the original projectile
+                newAngle = (float)Math.Atan(oldAngle.Y / oldAngle.X) - (1.0472f * i);
+                direction = new Vector2((float) Math.Cos(newAngle), (float) Math.Sin(newAngle));
             }
         }
     }
