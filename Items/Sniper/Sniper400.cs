@@ -5,32 +5,26 @@ using BTDMod.Projectiles;
 
 namespace BTDMod.Items.Sniper
 {
-    class Sniper030: ModItem
+    class Sniper400: ModItem
     {
         public override void SetDefaults()
         {
             Item.CloneDefaults(ModContent.ItemType<Sniper000>());
-            Item.damage = 30;
-            Item.rare = ItemRarityID.Green;
-            Item.shoot = ModContent.ProjectileType<BouncingBullet>();
+            Item.damage = 50;
+            Item.rare = ItemRarityID.Orange;
+            Item.shoot = ModContent.ProjectileType<CrippleBullet>();
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sniper Monkey 0-3-0");
-            Tooltip.SetDefault("Bullets bounce up to 3 times on nearby enemies");
+            DisplayName.SetDefault("Sniper Monkey 4-0-0");
+            Tooltip.SetDefault("Inflicts all sorts of debuffs on the enemy");
         }
         public override void AddRecipes()
         {
             Recipe recipe = Recipe.Create(Item.type);
             recipe.AddIngredient(null, "Sniper000", 1);
-
-            Recipe recipe2 = recipe.Clone();
-
-            recipe.AddIngredient(ItemID.DemoniteBar, 5);
+            recipe.AddIngredient(ItemID.HellstoneBar, 5);
             recipe.Register();
-
-            recipe2.AddIngredient(ItemID.CrimtaneBar, 5);
-            recipe2.Register();
         }
     }
 }

@@ -25,8 +25,8 @@ namespace BTDMod.Items.Sniper
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sniper Monkey");
-            Tooltip.SetDefault("0-0-0 Sniper");
+            DisplayName.SetDefault("Sniper Monkey 0-0-0");
+            Tooltip.SetDefault("They got a gun");
         }
         public override void AddRecipes()
         {
