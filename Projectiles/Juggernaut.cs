@@ -12,14 +12,16 @@ namespace BTDMod.Projectiles
         int totalCollisions;
         public override void SetDefaults()
         {
+            Projectile.damage = 1;
             Projectile.DamageType = DamageClass.Ranged;
+            Projectile.friendly = true;
             Projectile.height = 34;
             Projectile.width = 34;
-            
+            Projectile.penetrate = 50;
         }
         public override void SetStaticDefaults()
         {
-            
+            DisplayName.SetDefault("Juggernaut");
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
