@@ -9,10 +9,14 @@ namespace BTDMod.Projectiles
 {
     class BouncingBullet : ModProjectile
     {
+        // an array that stores npcs that have already been hit by the bullet
         NPC[] alreadyHit = new NPC[4];
+        const int ELITE = 2;
+        const int SUPPLY = 1;
+        const float DMG_MULT = 1.2f;
         public float Bounce {
-            get => Projectile.ai[1];
-            set => Projectile.ai[1] = value;
+            get => Projectile.localAI[1];
+            set => Projectile.localAI[1] = value;
         }
         public override void SetDefaults()
         {
@@ -33,15 +37,32 @@ namespace BTDMod.Projectiles
             if (player.HasBuff<SupplyDropCooldown>()) {
                 int index = player.FindBuffIndex(ModContent.BuffType<SupplyDropCooldown>());
                 int timeLeft = player.buffTime[index];
+                // reduce the cooldown of the debuff based on the damage dealt by the bullet
                 timeLeft -= damage / 300 * 60;
+                // delete the buff, which we will then reapply based on the new timeleft
                 player.DelBuff(index);
-
+                // if the cooldown is 0, the debuff is not reapplied
                 if (timeLeft <= 0) return;
+                // add a debuff that corresponds to the cooldown of the supply drop
                 player.AddBuff(ModContent.BuffType<SupplyDropCooldown>(), timeLeft);
             }
+            // add hit target to array 
             alreadyHit[(int) Bounce] = target;
             Bounce++;
-            const float maxDetectRadius = 640f;
+            // if the bullet has bounced the maximum number of times, and the bullet was shot by
+            // the 005 Sniper (Projectile.ai[0] == 1)
+            if (Projectile.ai[0] == ELITE && Bounce == 4) {
+                player.AddBuff(ModContent.BuffType<EliteBuff>(), 600);
+            }
+            // damage increases by DMG_MULT every bounce for 040 and 050
+            if ((Projectile.ai[0] == SUPPLY || Projectile.ai[0] == ELITE) && Bounce >= 1) {
+                Projectile.damage = (int) (damage * DMG_MULT);
+            }
+            float maxDetectRadius = 480f;
+            // homing range increases from elite buff
+            if (player.HasBuff<EliteBuff>()) {
+                maxDetectRadius *= 1.5f;
+            }
             NPC closestNPC = FindClosestNPC(maxDetectRadius, alreadyHit);
 			if (closestNPC == null) {
                 Projectile.Kill();
@@ -73,6 +94,7 @@ namespace BTDMod.Projectiles
 					float sqrDistanceToTarget = Vector2.DistanceSquared(target.Center, Projectile.Center);
 					// Check if it is within the radius
 					if (sqrDistanceToTarget < sqrMaxDetectDistance) {
+                        // check that the target has not already been hit
                         if (!alreadyHit.Contains(target)) {
                             sqrMaxDetectDistance = sqrDistanceToTarget;
 						    closestNPC = target;
