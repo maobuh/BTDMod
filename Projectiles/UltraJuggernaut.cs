@@ -74,7 +74,7 @@ namespace BTDMod.Projectiles
             // summon new juggernaut projectile 60 degrees apart from each other
             for (int i = 0; i < 6; i++)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, Projectile.velocity.Length() * direction, ModContent.ProjectileType<Juggernaut>(), Projectile.damage, 0);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, Projectile.velocity.Length() * direction, ModContent.ProjectileType<Juggernaut>(), Projectile.damage, 0, Main.player[Projectile.owner].whoAmI);
                 // recalculate next projectiles direction 60(1.0472f) degrees away from the original projectile
                 newAngle = (float)Math.Atan(oldAngle.Y / oldAngle.X) - (1.0472f * i);
                 direction = new Vector2((float) Math.Cos(newAngle), (float) Math.Sin(newAngle));
