@@ -14,7 +14,7 @@ namespace BTDMod.Projectiles
         public override void SetDefaults()
         {
             Projectile.damage = 1;
-            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = 200;
             originalPenetrate = Projectile.penetrate;
             Projectile.width = 64;

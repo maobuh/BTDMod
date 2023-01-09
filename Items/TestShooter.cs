@@ -2,6 +2,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using BTDMod.Projectiles;
+using Terraria.DataStructures;
+using Microsoft.Xna.Framework;
 
 namespace BTDMod.Items
 {
@@ -12,10 +14,10 @@ namespace BTDMod.Items
             Item.damage = 1;
             Item.noMelee = true;
             Item.DamageType = DamageClass.Generic;
-            Item.shoot = ModContent.ProjectileType<UltraJuggernaut>();
+            Item.shoot = ModContent.ProjectileType<Dart>();
             Item.shootSpeed = 10;
-            Item.useTime = 60;
-            Item.useAnimation = 60;
+            Item.useTime = 5;
+            Item.useAnimation = 5;
             Item.useStyle = ItemUseStyleID.MowTheLawn;
             Item.rare = 2;
             Item.autoReuse = true;
