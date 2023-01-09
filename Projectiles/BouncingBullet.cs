@@ -1,10 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
-using Terraria.Audio;
 using Terraria.ModLoader;
 using System;
 using System.Linq;
+using BTDMod.Buffs;
 
 namespace BTDMod.Projectiles
 {
@@ -30,6 +29,16 @@ namespace BTDMod.Projectiles
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            Player player = Main.player[Projectile.owner];
+            if (player.HasBuff<SupplyDropCooldown>()) {
+                int index = player.FindBuffIndex(ModContent.BuffType<SupplyDropCooldown>());
+                int timeLeft = player.buffTime[index];
+                timeLeft -= damage / 300 * 60;
+                player.DelBuff(index);
+
+                if (timeLeft <= 0) return;
+                player.AddBuff(ModContent.BuffType<SupplyDropCooldown>(), timeLeft);
+            }
             alreadyHit[(int) Bounce] = target;
             Bounce++;
             const float maxDetectRadius = 640f;
