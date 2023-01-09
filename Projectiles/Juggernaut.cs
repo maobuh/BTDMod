@@ -13,7 +13,7 @@ namespace BTDMod.Projectiles
         public override void SetDefaults()
         {
             Projectile.damage = 1;
-            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.DamageType = DamageClass.Melee;
             Projectile.friendly = true;
             Projectile.height = 34;
             Projectile.width = 34;

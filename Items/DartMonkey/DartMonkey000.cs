@@ -5,19 +5,20 @@ using BTDMod.Projectiles;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 
-namespace BTDMod.Items
+namespace BTDMod.Items.DartMonkey
 {
-    class TestShooter : ModItem
+    class DartMonkey000 : ModItem
     {
         public override void SetDefaults()
         {
-            Item.damage = 1;
+            // todo balance for early game
+            Item.damage = 5;
             Item.noMelee = true;
             Item.DamageType = DamageClass.Generic;
             Item.shoot = ModContent.ProjectileType<Dart>();
             Item.shootSpeed = 10;
-            Item.useTime = 5;
-            Item.useAnimation = 5;
+            Item.useTime = 30;
+            Item.useAnimation =30;
             Item.useStyle = ItemUseStyleID.MowTheLawn;
             Item.rare = 2;
             Item.autoReuse = true;
@@ -26,7 +27,8 @@ namespace BTDMod.Items
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("shoot porjectile (for testing)");
+            DisplayName.SetDefault("Dart Monkey 0-0-0");
+            Tooltip.SetDefault("");
         }
     }
 }
