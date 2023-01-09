@@ -31,11 +31,7 @@ namespace BTDMod.Items.Sniper
         public override void AddRecipes()
         {
             Recipe recipe = Recipe.Create(Item.type);
-            recipe.AddIngredient(ItemID.IronBar, 5);
-            recipe.Register();
-
-            recipe = Recipe.Create(Item.type);
-            recipe.AddIngredient(ItemID.LeadBar, 5);
+            recipe.AddRecipeGroup("IronBar", 5);
             recipe.Register();
         }
     }

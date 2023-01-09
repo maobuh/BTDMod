@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace BTDMod.Items.Sniper
 {
@@ -11,10 +12,9 @@ namespace BTDMod.Items.Sniper
             Item.CloneDefaults(ModContent.ItemType<Sniper000>());
             Item.damage = 30;
             Item.rare = ItemRarityID.LightRed;
-            Item.useTime = 4;
+            Item.useTime = 6;
             Item.knockBack = 2;
-            Item.useAnimation = 4;
-            Item.shoot = ProjectileID.Bullet;
+            Item.useAnimation = 6;
         }
         public override void SetStaticDefaults()
         {
