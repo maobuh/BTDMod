@@ -10,13 +10,16 @@ namespace BTDMod.Items.Druid
 {
     class Druid052 : ModItem
     {
-        int thornRadius = 1;
+        // TODO increase thornradius over time while player has item equipped
+        // reset thornradius when player unequips item
+        // why do vines spawn on tile borders - find out and fix
+        int thornRadius = 10;
         int baseUseTime;
         public override void SetDefaults()
         {
             Item.damage = 1;
             Item.noMelee = true;
-            Item.DamageType = DamageClass.Generic;
+            Item.DamageType = DamageClass.Magic;
             Item.shoot = ModContent.ProjectileType<Thorn>();
             Item.shootSpeed = 10;
             Item.useTime = 27;
@@ -40,29 +43,28 @@ namespace BTDMod.Items.Druid
             // spawn vines around the player
             // find tile adjacent to player, code adapted from Player.AdjTiles()
             // Player.AdjTiles is originally used for finding crafting stations around the player
-            // num3, num4 is the player's position converted into tiles
+            // tileX, tileY is the player's position converted into tiles
             // no idea why they do width / 2 and not height / 2
-            int num3 = (int)((player.position.X + (player.width / 2)) / 16f);
-            int num4 = (int)((player.position.Y + player.height) / 16f);
-            for (int j = num3 - thornRadius; j <= num3 + thornRadius; j++)
+            int tileX = (int)((player.position.X + (player.width / 2)) / 16f);
+            int tileY = (int)((player.position.Y + player.height) / 16f);
+            for (int j = tileX - thornRadius; j <= tileX + thornRadius; j++)
             {
-                for (int k = num4 - thornRadius; k < num4 + thornRadius; k++)
+                for (int k = tileY - thornRadius; k < tileY + thornRadius; k++)
                 {
-                    Main.NewText(Main.tile[j, k].TileType);
-                    if (Main.tile[j, k].TileType != 0) {
-                        // recalculate position based off
+                    if (Main.tile[j, k].TileType != 0 && Main.tile[j, k-1].TileType == 0) {
+                        // recalculate position based off the tile shown
                         Vector2 position = new((j * 16f) - (player.width / 2) + 16f, (k * 16f) + 4);
-                        Projectile.NewProjectile(Item.GetSource_FromThis(), position, Vector2.Zero, ModContent.ProjectileType<FloorThorns>(), Item.damage, 0, player.whoAmI);
+                        Projectile.NewProjectile(Item.GetSource_FromThis(), position, Vector2.Zero, ModContent.ProjectileType<Vines>(), Item.damage, 0, player.whoAmI);
                     }
-                    // if (NPC.IsValidSpawningGroundTile(j, k)) {
-                    //     
-                    // }
                 }
             }
         }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spirit of the Forest");
+            Tooltip.SetDefault("Summons spiky vines on blocks around the player." +
+            "\n" + "Press the Monkey Ability Hotkey to explode these vines for l a r g e damage." +
+            "\n" + "The closer the vines are to the player, the more damage they do (both passively and when they explode)");
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{

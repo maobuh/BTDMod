@@ -3,8 +3,10 @@ using Terraria.ModLoader;
 
 namespace BTDMod.Projectiles
 {
-    class FloorThorns : ModProjectile
+    class Vines : ModProjectile
     {
+        // TODO make the vines have different sprites the closer to the player they are
+        // three stages just like in balon game
         public override void SetDefaults()
         {
             Projectile.damage = 1;
@@ -19,7 +21,7 @@ namespace BTDMod.Projectiles
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Floor Thorn");
+            DisplayName.SetDefault("Vines");
         }
         public override void AI()
         {
