@@ -17,7 +17,7 @@ namespace BTDMod.Projectiles
             Projectile.scale = 1.2f;
             Projectile.timeLeft = 600;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.extraUpdates = 1;
+            Projectile.extraUpdates = 3;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
