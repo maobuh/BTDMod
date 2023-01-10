@@ -1,10 +1,10 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
 using BTDMod.Items.Sniper;
+using BTDMod.Buffs;
 using System;
 
 namespace BTDMod.Projectiles
@@ -15,6 +15,7 @@ namespace BTDMod.Projectiles
         const int UNIQUE_FRAMES = 5;
         const int FRAMES = (UNIQUE_FRAMES * 2) - 2;
         const int FRAME_TIME = 15;
+        const int PITY_FRAMES = 5;
         int currentFrame;
         public override void SetDefaults()
         {
@@ -29,6 +30,7 @@ namespace BTDMod.Projectiles
             Projectile.extraUpdates = 1;
             Projectile.frame = 5;
             Projectile.timeLeft = 24 * 60 * 60;
+            Projectile.netUpdate = false;
         }
         public override bool? CanDamage()
         {
@@ -40,6 +42,8 @@ namespace BTDMod.Projectiles
         }
         public override void AI()
         {
+            if (Projectile.owner != Main.myPlayer) return;
+            Player player = Main.player[Projectile.owner];
             // deals with animation frames
             if (++Projectile.frameCounter >= FRAME_TIME)
             {
@@ -48,8 +52,10 @@ namespace BTDMod.Projectiles
                 currentFrame = ++currentFrame % FRAMES;
                 Projectile.frame = currentFrame >= UNIQUE_FRAMES? FRAMES - currentFrame: currentFrame;
             }
-            if (Projectile.owner != Main.myPlayer) return;
-            Player player = Main.player[Projectile.owner];
+            if (Projectile.frame == 0 && Projectile.frameCounter == 0) {
+                player.AddBuff(ModContent.BuffType<Marked>(), FRAME_TIME + PITY_FRAMES);
+                SoundEngine.PlaySound(SoundID.MaxMana);
+            }
             // remove the scope if the player is no longer holding Sniper 500
             if (player.HeldItem.type != ModContent.ItemType<Sniper500>()) {
                 Projectile.Kill();

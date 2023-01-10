@@ -2,20 +2,20 @@ using Terraria;
 using Terraria.ModLoader;
 
 namespace BTDMod.Buffs {
-    class EliteBuff: ModBuff
+    class Marked: ModBuff
     {
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("EliteBuff");
-			Description.SetDefault("Increase Ranged Damage by 10%, Ranged Crit Chance by 10% and Bouncing Bullet bounce range by 50%");
+			DisplayName.SetDefault("Marked");
+			Description.SetDefault("Increase Damage by 100%, Ranged Crit Chance by 25%");
 			Main.debuff[Type] = false;
 			Main.pvpBuff[Type] = true;
 			Main.buffNoSave[Type] = true;
 		}
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetDamage<RangedDamageClass>() += 0.1f;
-            player.GetCritChance<RangedDamageClass>() += 10;
+            player.GetDamage<RangedDamageClass>() += 1.5f;
+            player.GetCritChance<RangedDamageClass>() += 25;
         }
     }
 }
