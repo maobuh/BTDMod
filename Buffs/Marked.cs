@@ -14,7 +14,7 @@ namespace BTDMod.Buffs {
 		}
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetDamage<RangedDamageClass>() += 1.5f;
+            player.GetDamage<RangedDamageClass>() += 1.8f;
             player.GetCritChance<RangedDamageClass>() += 25;
         }
     }

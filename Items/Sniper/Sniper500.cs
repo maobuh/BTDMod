@@ -13,7 +13,7 @@ namespace BTDMod.Items.Sniper
         public override void SetDefaults()
         {
             Item.CloneDefaults(ModContent.ItemType<Sniper000>());
-            Item.damage = 700;
+            Item.damage = 750;
             Item.rare = ItemRarityID.Cyan;
             Item.shoot = ModContent.ProjectileType<HitscanBullet>();
             Item.useTime = 60;
@@ -30,7 +30,7 @@ namespace BTDMod.Items.Sniper
                 Projectile.NewProjectile(Item.GetSource_FromThis(), player.Center, Vector2.Zero, ModContent.ProjectileType<LaserSight>(), 0, 0, player.whoAmI);
             }
             if (player.ownedProjectileCounts[ModContent.ProjectileType<Scope>()] < 1) {
-                Projectile.NewProjectile(Item.GetSource_FromThis(), Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<Scope>(), 0, 0, player.whoAmI);
+                Projectile.NewProjectile(Item.GetSource_FromThis(), Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<Scope>(), 0, 0, player.whoAmI, Item.useTime);
             }
         }
         public override void AddRecipes()

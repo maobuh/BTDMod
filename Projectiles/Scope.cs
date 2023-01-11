@@ -14,7 +14,10 @@ namespace BTDMod.Projectiles
         readonly float ROTATE_SPEED = (float)(0.05 / Math.PI);
         const int UNIQUE_FRAMES = 5;
         const int FRAMES = (UNIQUE_FRAMES * 2) - 2;
-        const int FRAME_TIME = 15;
+        float UseTime {
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
+        }
         const int PITY_FRAMES = 5;
         int currentFrame;
         public override void SetDefaults()
@@ -29,7 +32,6 @@ namespace BTDMod.Projectiles
             Projectile.scale = 1.2f;
             Projectile.extraUpdates = 1;
             Projectile.frame = 5;
-            Projectile.timeLeft = 24 * 60 * 60;
             Projectile.netUpdate = false;
         }
         public override bool? CanDamage()
@@ -43,9 +45,11 @@ namespace BTDMod.Projectiles
         public override void AI()
         {
             if (Projectile.owner != Main.myPlayer) return;
+            Projectile.timeLeft = 2;
             Player player = Main.player[Projectile.owner];
+            float frameTime = UseTime * (Projectile.extraUpdates + 1) / FRAMES;
             // deals with animation frames
-            if (++Projectile.frameCounter >= FRAME_TIME)
+            if (++Projectile.frameCounter >= frameTime)
             {
                 Projectile.frameCounter = 0;
                 // technically 8 frames total instead of 5, since the scope is supposed to enlarge then minimise in a cycle
@@ -53,7 +57,7 @@ namespace BTDMod.Projectiles
                 Projectile.frame = currentFrame >= UNIQUE_FRAMES? FRAMES - currentFrame: currentFrame;
             }
             if (Projectile.frame == 0 && Projectile.frameCounter == 0) {
-                player.AddBuff(ModContent.BuffType<Marked>(), FRAME_TIME + PITY_FRAMES);
+                player.AddBuff(ModContent.BuffType<Marked>(), (int) frameTime + PITY_FRAMES);
                 SoundEngine.PlaySound(SoundID.MaxMana);
             }
             // remove the scope if the player is no longer holding Sniper 500
