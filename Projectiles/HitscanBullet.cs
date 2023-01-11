@@ -7,11 +7,7 @@ namespace BTDMod.Projectiles
 {
     class HitscanBullet : ModProjectile
     {
-        const int MAX_DISTANCE = 2000;
-        public float Distance {
-			get => Projectile.ai[0];
-			set => Projectile.ai[0] = value;
-		}
+        const int MAX_DISTANCE = 4000;
         public override void SetDefaults()
         {
             Projectile.width = 20;
@@ -20,7 +16,7 @@ namespace BTDMod.Projectiles
             Projectile.alpha = 0;
             Projectile.friendly = true;
             Projectile.scale = 1.2f;
-            Projectile.timeLeft = 60;
+            Projectile.timeLeft = 10;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.hide = true;
         }
@@ -38,7 +34,10 @@ namespace BTDMod.Projectiles
         {
             Projectile.rotation = Projectile.velocity.ToRotation();
             Vector2? position = FindEnemyPosition();
-            if (position == null) return;
+            if (position == null) {
+                Projectile.Kill();
+                return;
+            }
             Projectile.position = (Vector2) position;
         }
         // Finds the position of the first enemy in the path, return null if no enemy found
@@ -56,7 +55,7 @@ namespace BTDMod.Projectiles
 						float point = 0f;
 						// check collision with enemy hitbox
 						if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center,
-																Projectile.Center + (Projectile.velocity * Distance), 10, ref point)) {
+																Projectile.Center + (Projectile.velocity * MAX_DISTANCE), 10, ref point)) {
 							TargetDistance = DistanceToTarget;
                             position = target.Center;
 						}
