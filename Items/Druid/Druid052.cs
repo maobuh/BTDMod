@@ -10,11 +10,12 @@ namespace BTDMod.Items.Druid
 {
     class Druid052 : ModItem
     {
-        // TODO increase thornradius over time while player has item equipped
-        // reset thornradius when player unequips item
-        // why do vines spawn on tile borders - find out and fix
-        int thornRadius = 10;
+        // TODO make it so trees dont get vines on them
+        // its so laggy theres too many projectiles
+        // reduce lag by making it like the laser in joost with predraw
+        int vineRadiusExpansionCooldown;
         int baseUseTime;
+        const int maxVineRadius = 40;
         public override void SetDefaults()
         {
             Item.damage = 1;
@@ -47,17 +48,25 @@ namespace BTDMod.Items.Druid
             // no idea why they do width / 2 and not height / 2
             int tileX = (int)((player.position.X + (player.width / 2)) / 16f);
             int tileY = (int)((player.position.Y + player.height) / 16f);
-            for (int j = tileX - thornRadius; j <= tileX + thornRadius; j++)
+            for (int j = tileX - player.GetModPlayer<BTDPlayer>().vineRadius; j <= tileX + player.GetModPlayer<BTDPlayer>().vineRadius; j++)
             {
-                for (int k = tileY - thornRadius; k < tileY + thornRadius; k++)
+                for (int k = tileY - player.GetModPlayer<BTDPlayer>().vineRadius; k < tileY + player.GetModPlayer<BTDPlayer>().vineRadius; k++)
                 {
-                    if (Main.tile[j, k].TileType != 0 && Main.tile[j, k-1].TileType == 0) {
+                    // the condition inside this if statement doesnt work, tiletype == 0 is probably not for empty
+                    // this condition needs to be made to ignore trees and grass and shit
+                    if (Main.tile[j, k].TileType != 0 && Main.tile[j, k].HasTile && !Main.tile[j, k-1].HasTile) {
                         // recalculate position based off the tile shown
                         Vector2 position = new((j * 16f) - (player.width / 2) + 16f, (k * 16f) + 4);
-                        Projectile.NewProjectile(Item.GetSource_FromThis(), position, Vector2.Zero, ModContent.ProjectileType<Vines>(), Item.damage, 0, player.whoAmI);
+                        int damage = Item.damage * ((player.GetModPlayer<BTDPlayer>().vineRadius / 20) + 1);
+                        Projectile.NewProjectile(Item.GetSource_FromThis(), position, Vector2.Zero, ModContent.ProjectileType<Vines>(), damage, 0, player.whoAmI);
                     }
                 }
             }
+            if (vineRadiusExpansionCooldown > 30 && player.GetModPlayer<BTDPlayer>().vineRadius < maxVineRadius) {
+                player.GetModPlayer<BTDPlayer>().vineRadius += 4;
+                vineRadiusExpansionCooldown = 0;
+            }
+            vineRadiusExpansionCooldown++;
         }
         public override void SetStaticDefaults()
         {

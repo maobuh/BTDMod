@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace BTDMod.Projectiles
 {
-    class ThornExplosion : ModProjectile
+    class VineExplosion : ModProjectile
     {
         public override void SetDefaults()
         {
@@ -18,7 +18,7 @@ namespace BTDMod.Projectiles
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Thorn Explosion");
+            DisplayName.SetDefault("Vine Explosion");
         }
         public override void AI()
         {
