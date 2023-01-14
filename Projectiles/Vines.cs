@@ -23,7 +23,7 @@ namespace BTDMod.Projectiles
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 2;
             Projectile.localNPCHitCooldown = 0;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 100;
         }
         public override void SetStaticDefaults()
         {
@@ -33,6 +33,7 @@ namespace BTDMod.Projectiles
         {
             if (Array.Exists(Main.projectile, element => element.position == Projectile.position) && !Array.Find(Main.projectile, element => element.position == Projectile.position).Equals(Projectile)) {
                 Projectile.Kill();
+                Main.NewText("buh");
             }
         }
         public override void AI()
