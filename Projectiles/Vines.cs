@@ -13,6 +13,7 @@ namespace BTDMod.Projectiles
         // three stages just like in balon game
         // Projectile.ai[0] to Projectile.ai[1] will the x values of the position where the vines need to be drawn to and from
         const float vineSpacing = 8f;
+        bool explode;
         public override void SetDefaults()
         {
             Projectile.damage = 1;
@@ -23,7 +24,7 @@ namespace BTDMod.Projectiles
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 2;
             Projectile.localNPCHitCooldown = 0;
-            Projectile.timeLeft = 100;
+            Projectile.timeLeft = 180;
         }
         public override void SetStaticDefaults()
         {
@@ -31,24 +32,34 @@ namespace BTDMod.Projectiles
         }
         public override void PostDraw(Color lightColor)
         {
+            // kill any new vines that spawn on top of this one
+            // in postdraw only cause it happens after setdefaults
             if (Array.Exists(Main.projectile, element => element.position == Projectile.position) && !Array.Find(Main.projectile, element => element.position == Projectile.position).Equals(Projectile)) {
+                explode = false;
                 Projectile.Kill();
-                Main.NewText("buh");
             }
         }
         public override void AI()
         {
-            Projectile.rotation = Projectile.velocity.ToRotation();
+            Player player = Main.player[Projectile.owner];
+            // vine boom
+            if (BTDMod.MonkeyAbilityHotKey.JustPressed) {
+                explode = true;
+                // vines closer to the player explode earlier than the ones further away
+                // 40 tiles(max vine range) * 16 pixels per tile
+                Projectile.timeLeft = (int)(Projectile.Center - player.Center).Length() / 40 * 16;
+            }
             base.AI();
         }
-        // public override bool PreDraw(ref Color lightColor)
-        // {
-        //     Vector2 start = new(Projectile.ai[0], Projectile.position.Y);
-        //     for (float i = vineSpacing; i <= Projectile.ai[1]; i += vineSpacing) {
-        //         Main.EntitySpriteDraw((Texture2D) ModContent.Request<Texture2D>("BTDMod/Projectiles/Vines", (AssetRequestMode) 2), start - Main.screenPosition, new Rectangle(0, 0, 32, 16), Color.White, Projectile.Center.ToRotation(), new Vector2(32 / 2, 16 / 8), 1, 0, 0);
-        //         start += Projectile.Center * vineSpacing;
-        //     }
-        //     return true;
-        // }
+        public override void Kill(int timeLeft)
+        {
+            if (explode) {
+                // once per tile that the vine covers
+                for (int i = 0; i < (Projectile.ai[1] - Projectile.ai[0]) / 16; i++) {
+                    Vector2 velocity = new();
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, velocity, ModContent.ProjectileType<VineExplosion>(), Projectile.damage * 75, 0, Projectile.owner);
+                }
+            }
+        }
     }
 }
