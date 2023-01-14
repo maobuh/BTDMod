@@ -52,12 +52,13 @@ namespace BTDMod.Items.Druid
             {
                 for (int k = tileY - player.GetModPlayer<BTDPlayer>().vineRadius; k < tileY + player.GetModPlayer<BTDPlayer>().vineRadius; k++)
                 {
-                    // the condition inside this if statement doesnt work, tiletype == 0 is probably not for empty
-                    // this condition needs to be made to ignore trees and grass and shit
-                    if (Main.tile[j, k].TileType != 0 && Main.tile[j, k].HasTile && !Main.tile[j, k-1].HasTile) {
-                        // recalculate position based off the tile shown
+                    // tilesolid is if the tile is solid or not, NOT FUCKING MAIN.TILE.BLOCKTYPE WHY ISNT IT THAT why is it in a different array??!??
+                    // checks tiles around the player for if they are solid and have an empty space above them
+                    if (Main.tile[j, k].HasTile && Main.tileSolid[Main.tile[j, k].TileType] && (!Main.tile[j, k-1].HasTile || !Main.tileSolid[Main.tile[j, k - 1].TileType])) {
+                        // recalculate position based off the tile's position in the array
                         Vector2 position = new((j * 16f) - (player.width / 2) + 16f, (k * 16f) + 4);
-                        int damage = Item.damage * ((player.GetModPlayer<BTDPlayer>().vineRadius / 20) + 1);
+                        // this calculation is incorrect rn
+                        int damage = Item.damage * ((player.GetModPlayer<BTDPlayer>().vineRadius / 20) + 1); // the damage should be a 2:3:4 ratio based on how close the vine is to the player
                         Projectile.NewProjectile(Item.GetSource_FromThis(), position, Vector2.Zero, ModContent.ProjectileType<Vines>(), damage, 0, player.whoAmI);
                     }
                 }
