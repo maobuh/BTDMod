@@ -13,8 +13,8 @@ namespace BTDMod.Projectiles
             Projectile.height = 34;
             Projectile.width = 34;
             Projectile.penetrate = -1;
-            Projectile.extraUpdates = 2;
             Projectile.localNPCHitCooldown = 0;
+            Projectile.timeLeft = 10;
         }
         public override void SetStaticDefaults()
         {
@@ -22,7 +22,7 @@ namespace BTDMod.Projectiles
         }
         public override void AI()
         {
-            Projectile.rotation = Projectile.velocity.ToRotation();
+            Projectile.rotation = Projectile.velocity.ToRotation() + 0.785398f;
             base.AI();
         }
     }

@@ -58,7 +58,7 @@ namespace BTDMod.Items.Druid
                         Vector2 position = new((j * 16f) - (player.width / 2) + 16f, (k * 16f) + 4);
                         // this calculation is incorrect rn
                         int damage = Item.damage * ((player.GetModPlayer<BTDPlayer>().vineRadius / 20) + 1); // the damage should be a 2:3:4 ratio based on how close the vine is to the player
-                        Projectile.NewProjectile(Item.GetSource_ItemUse(Item), position, Vector2.Zero, ModContent.ProjectileType<Vines>(), damage, 0, player.whoAmI);
+                        Projectile.NewProjectile(Item.GetSource_ItemUse(Item), position, Vector2.Zero, ModContent.ProjectileType<Vines>(), damage, 0, player.whoAmI, Item.shootSpeed);
                     }
                 }
                 if (vineRadiusExpansionCooldown > 30 && player.GetModPlayer<BTDPlayer>().vineRadius < maxVineRadius) {
