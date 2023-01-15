@@ -32,10 +32,12 @@ namespace BTDMod.Projectiles
             targetDir.Normalize();
             velocity.Normalize();
             // THIS FUCKING WORKS, THANK YOU MATH STACKEXCHANGE GUY https://math.stackexchange.com/questions/878785/how-to-find-an-angle-in-range0-360-between-2-vectors
+            // finds the angle between the targetDir and velocity
             float dotProd = Vector2.Dot(targetDir, velocity);
             dotProd = dotProd > 1? 1: dotProd;
             float det = (targetDir.X * velocity.Y) - (targetDir.Y * velocity.X);
             double angleChange = Math.Atan2(det, dotProd);
+            // the change in the angle has a maximum to ensure a nice looking curve
             if (angleChange > MAX_ANGLE_CHANGE) {
                 angleChange = angleChange > 0? MAX_ANGLE_CHANGE: -MAX_ANGLE_CHANGE;
             }
