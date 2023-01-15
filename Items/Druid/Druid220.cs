@@ -6,7 +6,7 @@ using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using System;
 
-// TODO: NEEDS LIGHTNING
+// TODO: EVERYTHING
 
 namespace BTDMod.Items.Druid
 {
@@ -29,7 +29,7 @@ namespace BTDMod.Items.Druid
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Druid Monkey 2-2-0");
+            DisplayName.SetDefault("Heart of Thunder");
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
@@ -44,7 +44,7 @@ namespace BTDMod.Items.Druid
 				double randomAngle = baseAngle + ((Main.rand.NextFloat() - 0.5f) * spread);
 				Vector2 newVelocity = new(baseSpeed * (float)Math.Sin(randomAngle), baseSpeed * (float)Math.Cos(randomAngle));
 				// make new projectile
-				Projectile.NewProjectile(source, position, newVelocity, type, 1, 0, player.whoAmI);
+				Projectile.NewProjectile(source, position, newVelocity, type, damage, 0, player.whoAmI);
 			}
 			return false;
 		}

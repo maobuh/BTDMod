@@ -9,7 +9,7 @@ namespace BTDMod
         public int vineRadius;
         public override void UpdateEquips()
         {
-            if (Player.HeldItem.type != ModContent.ItemType<Druid052>() && vineRadius != 4) {
+            if (Player.HeldItem.type != ModContent.ItemType<Druid052>() && Player.HeldItem.type != ModContent.ItemType<Druid032>() && vineRadius != 4) {
                 vineRadius = 4;
             }
             base.UpdateEquips();
