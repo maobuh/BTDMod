@@ -2,8 +2,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using BTDMod.Projectiles;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework;
 
 namespace BTDMod.Items
 {
@@ -14,7 +12,7 @@ namespace BTDMod.Items
             Item.damage = 1;
             Item.noMelee = true;
             Item.DamageType = DamageClass.Generic;
-            Item.shoot = ModContent.ProjectileType<Dart>();
+            Item.shoot = ModContent.ProjectileType<Thorn>();
             Item.shootSpeed = 10;
             Item.useTime = 5;
             Item.useAnimation = 5;
