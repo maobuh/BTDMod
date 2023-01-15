@@ -24,8 +24,10 @@ namespace BTDMod.Projectiles
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation();
+            SpawnDust();
             NPC closest = FindClosestNPC(500);
             if (closest == null) return;
+
             // the stuff below does the projectile homing
             Vector2 targetDir = closest.Center - Projectile.Center;
             Vector2 velocity = Projectile.velocity;
@@ -33,6 +35,7 @@ namespace BTDMod.Projectiles
             velocity.Normalize();
             // THIS FUCKING WORKS, THANK YOU MATH STACKEXCHANGE GUY https://math.stackexchange.com/questions/878785/how-to-find-an-angle-in-range0-360-between-2-vectors
             // finds the angle between the targetDir and velocity
+            // this will slowly curve the projectile to the correct position as AI reruns
             float dotProd = Vector2.Dot(targetDir, velocity);
             dotProd = dotProd > 1? 1: dotProd;
             float det = (targetDir.X * velocity.Y) - (targetDir.Y * velocity.X);
@@ -44,8 +47,21 @@ namespace BTDMod.Projectiles
             double baseAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y);
             baseAngle += angleChange;
             float baseSpeed = Projectile.velocity.Length();
+            // rotate the velocity by the angleChange
             Projectile.velocity = new(baseSpeed * (float)Math.Sin(baseAngle), baseSpeed * (float)Math.Cos(baseAngle));
+            // rotate sprite to point in the correct direction
             Projectile.rotation = Projectile.velocity.ToRotation();
+        }
+        // does particle effects
+        // copied from joost focussoulsbeam
+        private void SpawnDust() {
+            Vector2 dustPos = Projectile.Center;
+            float num1 = Projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1 ? -1.0f : 1.0f) * 1.57f);
+            float num2 = (float)((Main.rand.NextDouble() * 0.8f) + 1.0f);
+            Vector2 dustVel = new((float)Math.Cos(num1) * num2, (float)Math.Sin(num1) * num2);
+            Dust dust = Main.dust[Dust.NewDust(dustPos, 0, 0, DustID.DemonTorch, dustVel.X, dustVel.Y, 0)];
+            dust.noGravity = true;
+            dust.scale = 1.2f;
         }
         public NPC FindClosestNPC(float maxDetectDistance) {
 			NPC closestNPC = null;
