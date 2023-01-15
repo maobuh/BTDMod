@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using BTDMod.Projectiles;
+using BTDMod.Buffs;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using System;
@@ -73,7 +74,7 @@ namespace BTDMod.Items.Druid
                 vineRadiusExpansionCooldown = 0;
             }
             vineRadiusExpansionCooldown++;
-            if (BTDMod.MonkeyAbilityHotKey.JustPressed) {
+            if (BTDMod.MonkeyAbilityHotKey.JustPressed && player.statMana > 100 && !player.HasBuff(ModContent.BuffType<VineExplosionCooldown>())) {
                 player.statMana -= 100;
             }
         }
