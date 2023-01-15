@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using BTDMod.Projectiles;
+using BTDMod.Buffs;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using System;
@@ -57,11 +58,14 @@ namespace BTDMod.Items.Druid
                     if (Main.tile[j, k].TileType != 0 && Main.tileSolid[Main.tile[j, k].TileType] && (!Main.tile[j, k-1].HasTile || !Main.tileSolid[Main.tile[j, k - 1].TileType])) {
                         // recalculate position based off the tile's position in the array
                         Vector2 position = new((j * 16f) - (player.width / 2) + 16f, (k * 16f) + 4);
-                        // calculate what colour the projectile should be when it spawns
-                        float frame = (player.position - position).Length() * 3 / (40 * 16);
-                        // damage based on how close the projectile is to the player
-                        int damage = Item.damage / 2 * (3 - (int)frame); // the damage should be a 2:3:4 ratio based on how close the vine is to the player
-                        Projectile.NewProjectile(Item.GetSource_ItemUse(Item), position, Vector2.Zero, ModContent.ProjectileType<Vines>(), damage, 0, player.whoAmI, Item.shootSpeed, frame);
+                        // dont spawn a new vine if there is one already there
+                        if (!Array.Exists(Main.projectile, element => element.position == position)) {
+                            // calculate what colour the projectile should be when it spawns
+                            float frame = (player.position - position).Length() * 3 / (40 * 16);
+                            // damage based on how close the projectile is to the player
+                            int damage = Item.damage / 2 * (3 - (int)frame); // the damage should be a 2:3:4 ratio based on how close the vine is to the player
+                            Projectile.NewProjectile(Item.GetSource_ItemUse(Item), position, Vector2.Zero, ModContent.ProjectileType<Vines>(), damage, 0, player.whoAmI, Item.shootSpeed, frame);
+                        }
                     }
                 }
             }
@@ -73,6 +77,9 @@ namespace BTDMod.Items.Druid
                 vineRadiusExpansionCooldown = 0;
             }
             vineRadiusExpansionCooldown++;
+            if (BTDMod.MonkeyAbilityHotKey.JustPressed && player.statMana > 100 && !player.HasBuff(ModContent.BuffType<VineExplosionCooldown>())) {
+                player.statMana -= 100;
+            }
         }
         public override void SetStaticDefaults()
         {
