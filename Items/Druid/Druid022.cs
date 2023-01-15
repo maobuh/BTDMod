@@ -13,19 +13,20 @@ namespace BTDMod.Items.Druid
         int baseUseTime;
         public override void SetDefaults()
         {
-            Item.damage = 1;
+            Item.damage = 20;
             Item.noMelee = true;
             Item.DamageType = DamageClass.Generic;
             Item.shoot = ModContent.ProjectileType<Thorn>();
             Item.shootSpeed = 10;
             Item.useTime = 27;
             baseUseTime = Item.useTime;
-            Item.useAnimation = 1;
+            Item.useAnimation = 27;
             Item.useStyle = ItemUseStyleID.MowTheLawn;
             Item.rare = 2;
             Item.autoReuse = true;
             Item.width = 32;
             Item.height = 32;
+            Item.mana = 3;
         }
         public override void HoldItem(Player player)
         {
@@ -36,10 +37,11 @@ namespace BTDMod.Items.Druid
             } else {
                 Item.useTime = baseUseTime * 100 / (100 + attackSpeedBonus);
             }
+            Item.useAnimation = Item.useTime;
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Druid Monkey 0-2-2");
+            DisplayName.SetDefault("Heart of Vengeance");
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
@@ -54,9 +56,18 @@ namespace BTDMod.Items.Druid
 				double randomAngle = baseAngle + ((Main.rand.NextFloat() - 0.5f) * spread);
 				Vector2 newVelocity = new(baseSpeed * (float)Math.Sin(randomAngle), baseSpeed * (float)Math.Cos(randomAngle));
 				// make new projectile
-				Projectile.NewProjectile(source, position, newVelocity, type, 1, 0, player.whoAmI);
+				Projectile.NewProjectile(source, position, newVelocity, type, damage, 0, player.whoAmI);
 			}
 			return false;
 		}
+        public override void AddRecipes()
+        {
+            Recipe recipe = Recipe.Create(Item.type);
+            recipe.AddIngredient(null, "Druid000", 1);
+            recipe.AddIngredient(ItemID.Cactus, 5);
+            recipe.AddIngredient(ItemID.Wood, 1);
+            recipe.AddTile(TileID.WorkBenches);
+            recipe.Register();
+        }
     }
 }

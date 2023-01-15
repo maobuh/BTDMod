@@ -15,6 +15,7 @@ namespace BTDMod.Projectiles
             Projectile.penetrate = 32767;
             Projectile.timeLeft = 16;
             Projectile.tileCollide = false;
+            Projectile.light = 10;
         }
         public override void SetStaticDefaults()
         {

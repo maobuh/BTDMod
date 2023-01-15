@@ -13,7 +13,6 @@ namespace BTDMod.Projectiles
             Projectile.height = 34;
             Projectile.width = 34;
             Projectile.penetrate = -1;
-            Projectile.localNPCHitCooldown = 0;
             Projectile.timeLeft = 10;
         }
         public override void SetStaticDefaults()

@@ -8,7 +8,7 @@ using System;
 
 namespace BTDMod.Items.Druid
 {
-    class Druid052 : ModItem
+    class Druid032 : ModItem
     {
         // TODO the mana cost when holding the item is inconsistent; doesnt use any mana until max vine radius where it suddenly deletes all ur mana
         // test the fix
@@ -17,7 +17,7 @@ namespace BTDMod.Items.Druid
         const int maxVineRadius = 40;
         public override void SetDefaults()
         {
-            Item.damage = 30;
+            Item.damage = 20;
             Item.noMelee = true;
             Item.DamageType = DamageClass.Magic;
             Item.shoot = ModContent.ProjectileType<Thorn>();
@@ -28,9 +28,9 @@ namespace BTDMod.Items.Druid
             Item.useStyle = ItemUseStyleID.MowTheLawn;
             Item.rare = 2;
             Item.autoReuse = true;
-            Item.mana = 5;
             Item.width = 32;
             Item.height = 32;
+            Item.mana = 5;
         }
         public override void HoldItem(Player player)
         {
@@ -57,11 +57,7 @@ namespace BTDMod.Items.Druid
                     if (Main.tile[j, k].TileType != 0 && Main.tileSolid[Main.tile[j, k].TileType] && (!Main.tile[j, k-1].HasTile || !Main.tileSolid[Main.tile[j, k - 1].TileType])) {
                         // recalculate position based off the tile's position in the array
                         Vector2 position = new((j * 16f) - (player.width / 2) + 16f, (k * 16f) + 4);
-                        // calculate what colour the projectile should be when it spawns
-                        float frame = (player.position - position).Length() * 3 / (40 * 16);
-                        // damage based on how close the projectile is to the player
-                        int damage = Item.damage / 2 * (3 - (int)frame); // the damage should be a 2:3:4 ratio based on how close the vine is to the player
-                        Projectile.NewProjectile(Item.GetSource_ItemUse(Item), position, Vector2.Zero, ModContent.ProjectileType<Vines>(), damage, 0, player.whoAmI, Item.shootSpeed, frame);
+                        Projectile.NewProjectile(Item.GetSource_ItemUse(Item), position, Vector2.Zero, ModContent.ProjectileType<Vines>(), Item.damage / 2, 0, player.whoAmI, Item.shootSpeed, 2);
                     }
                 }
             }
@@ -69,17 +65,15 @@ namespace BTDMod.Items.Druid
                 if (player.GetModPlayer<BTDPlayer>().vineRadius < maxVineRadius) {
                     player.GetModPlayer<BTDPlayer>().vineRadius += 4;
                 }
-                player.statMana -= 10;
+                player.statMana -= 5;
                 vineRadiusExpansionCooldown = 0;
             }
             vineRadiusExpansionCooldown++;
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spirit of the Forest");
-            Tooltip.SetDefault("Summons spiky vines on blocks around the player." +
-            "\n" + "Press the Monkey Ability Hotkey to explode these vines for l a r g e damage." +
-            "\n" + "The closer the vines are to the player, the more damage they do (both passively and when they explode)");
+            DisplayName.SetDefault("Druid of the Jungle");
+            Tooltip.SetDefault("Summons spiky vines on blocks around the player.");
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
@@ -101,11 +95,15 @@ namespace BTDMod.Items.Druid
         public override void AddRecipes()
         {
             Recipe recipe = Recipe.Create(Item.type);
-            recipe.AddIngredient(null, "Druid032", 1);
-            recipe.AddIngredient(ItemID.SoulofMight, 5);
-            recipe.AddIngredient(ItemID.HallowedBar, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.Register();
+            recipe.AddIngredient(null, "Druid022", 1);
+            recipe.AddIngredient(ItemID.Vine, 1);
+            recipe.AddIngredient(ItemID.JungleSpores, 2);
+            recipe.AddTile(TileID.Anvils);
+
+            Recipe recipe2 = recipe.Clone();
+            recipe.AddIngredient(ItemID.DemoniteBar, 5);
+            recipe2.AddIngredient(ItemID.CrimtaneBar, 5);
+            recipe2.Register();
         }
     }
 }
