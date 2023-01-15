@@ -26,6 +26,7 @@ namespace BTDMod.Projectiles
 			ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
 		}
 		public override void AI() {
+			Projectile.netUpdate = true;
 			// active check (checks if player is alive, despawns minion if the player died)
 			Player player = Main.player[Projectile.owner];
 			if (player.dead) {
@@ -85,7 +86,7 @@ namespace BTDMod.Projectiles
 			Projectile.minion = true;
 			Projectile.minionSlots = 0;
 			Projectile.penetrate = -1;
-			Projectile.timeLeft = 600;
+			Projectile.timeLeft = 960;
 			Projectile.tileCollide = false;
 			Projectile.ignoreWater = true;
 		}
