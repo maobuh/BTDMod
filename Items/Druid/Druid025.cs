@@ -8,7 +8,7 @@ using System;
 
 namespace BTDMod.Items.Druid
 {
-    class Druid022 : ModItem
+    class Druid025 : ModItem
     {
         int baseUseTime;
         public override void SetDefaults()
@@ -41,8 +41,8 @@ namespace BTDMod.Items.Druid
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Heart of Vengeance");
-            Tooltip.SetDefault("Gains 10% attack speed for each heart lost");
+            DisplayName.SetDefault("Avatar of Wrath");
+            Tooltip.SetDefault("Gains more attack speed the higher the health of enemies around you");
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{

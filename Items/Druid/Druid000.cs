@@ -29,6 +29,7 @@ namespace BTDMod.Items.Druid
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Druid Monkey");
+            Tooltip.SetDefault("Shoots a blast of thorns for each attack. ");
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
