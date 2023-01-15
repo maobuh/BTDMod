@@ -57,7 +57,9 @@ namespace BTDMod.Items.Druid
                     if (Main.tile[j, k].TileType != 0 && Main.tileSolid[Main.tile[j, k].TileType] && (!Main.tile[j, k-1].HasTile || !Main.tileSolid[Main.tile[j, k - 1].TileType])) {
                         // recalculate position based off the tile's position in the array
                         Vector2 position = new((j * 16f) - (player.width / 2) + 16f, (k * 16f) + 4);
-                        Projectile.NewProjectile(Item.GetSource_ItemUse(Item), position, Vector2.Zero, ModContent.ProjectileType<Vines>(), Item.damage / 2, 0, player.whoAmI, Item.shootSpeed, 2);
+                        if (!Array.Exists(Main.projectile, element => element.position == position)) {
+                            Projectile.NewProjectile(Item.GetSource_ItemUse(Item), position, Vector2.Zero, ModContent.ProjectileType<Vines>(), Item.damage / 2, 0, player.whoAmI, Item.shootSpeed, 2);
+                        }
                     }
                 }
             }
