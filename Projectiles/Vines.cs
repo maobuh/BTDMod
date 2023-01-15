@@ -38,16 +38,6 @@ namespace BTDMod.Projectiles
             Projectile.frame = (int) Projectile.ai[1];
             return base.PreDraw(ref lightColor);
         }
-        public override void PostDraw(Color lightColor)
-        {
-            // kill any new vines that spawn on top of this one
-            // in postdraw only cause it happens after setdefaults
-            if (Array.Exists(Main.projectile, element => element.position == Projectile.position) && !Array.Find(Main.projectile, element => element.position == Projectile.position).Equals(Projectile)) {
-                // this is the justin case
-                explode = false;
-                Projectile.Kill();
-            }
-        }
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
