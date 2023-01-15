@@ -73,6 +73,9 @@ namespace BTDMod.Items.Druid
                 vineRadiusExpansionCooldown = 0;
             }
             vineRadiusExpansionCooldown++;
+            if (BTDMod.MonkeyAbilityHotKey.JustPressed) {
+                player.statMana -= 100;
+            }
         }
         public override void SetStaticDefaults()
         {
