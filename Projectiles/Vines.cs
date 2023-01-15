@@ -53,6 +53,7 @@ namespace BTDMod.Projectiles
             Player player = Main.player[Projectile.owner];
             // vine boom
             if (BTDMod.MonkeyAbilityHotKey.JustPressed && player.HeldItem.type == ModContent.ItemType<Druid052>() && !player.HasBuff(ModContent.BuffType<VineExplosionCooldown>())) {
+                player.statMana -= 100;
                 explode = true;
                 // vines closer to the player explode earlier than the ones further away
                 // no idea by how much tho just felt right
