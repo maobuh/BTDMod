@@ -32,19 +32,27 @@ namespace BTDMod.Projectiles
 			if (player.dead) {
 				player.ClearBuff(ModContent.BuffType<PhoenixBuff>());
 			}
+			// despawns the phoenix if the phoenix buff time runs out (which is the duration of the phoenix)
 			if (!player.HasBuff(ModContent.BuffType<PhoenixBuff>())) {
 				Projectile.Kill();
 			}
+			// creates the animation for the phoenix
 			float dirAngle = Projectile.velocity.ToRotation() + angleChange;
+			// velocity is in the direction of the centrifugal force
 			Projectile.velocity = new((float) Math.Cos(dirAngle), (float) Math.Sin(dirAngle));
+			// rotate the sprite by 90 deg so its in the correct direction
 			Projectile.rotation = Projectile.velocity.ToRotation() - ((float) Math.PI / 2);
+			// phoenix rotates in a circle around the player
 			Projectile.Center = player.Center + (flyRadius * Projectile.velocity);
+
+			// searches for closest enemy and shoots fireballs in the direction
 			NPC closestNPC = FindClosestNPC(960);
 			if (closestNPC == null) return;
+			// fires a projectile every shootSpeed frames
 			if (Timer % shootSpeed == 0) {
 				const float projSpeed = 10f;
 				Vector2 targetDir = (closestNPC.Center - Projectile.Center).SafeNormalize(Vector2.Zero) * projSpeed;
-				Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, targetDir, ModContent.ProjectileType<PhoenixBreath>(), 100, 0, player.whoAmI);
+				Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, targetDir, ModContent.ProjectileType<PhoenixBreath>(), (int)player.GetDamage<MagicDamageClass>().ApplyTo(100), 0, player.whoAmI);
 			}
 			Timer++;
 		}

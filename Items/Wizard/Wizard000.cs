@@ -23,6 +23,7 @@ namespace BTDMod.Items.Wizard
             Item.DamageType = DamageClass.Magic;
             Item.shoot = ModContent.ProjectileType<WizardBullet>();
             Item.shootSpeed = 10f;
+            Item.mana = 5;
         }
         public override void SetStaticDefaults()
         {
