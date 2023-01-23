@@ -33,6 +33,7 @@ namespace BTDMod.Projectiles
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            Projectile.netUpdate = true;
             Player player = Main.player[Projectile.owner];
             if (player.HasBuff<SupplyDropCooldown>()) {
                 int index = player.FindBuffIndex(ModContent.BuffType<SupplyDropCooldown>());
