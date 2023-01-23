@@ -65,7 +65,7 @@ namespace BTDMod.Items.Wizard
         {
             Recipe recipe = Recipe.Create(Item.type);
             recipe.AddIngredient(ItemID.HellstoneBar, 3);
-            recipe.AddIngredient(ItemID.Bone, 3);
+            recipe.AddIngredient(null, "Wizard000", 1);
             recipe.AddIngredient(ItemID.LavaBucket, 1);
             recipe.Register();
         }
