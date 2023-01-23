@@ -6,6 +6,5 @@ namespace BTDMod.Projectiles
 {
     class Lightning : ModProjectile
     {
-        
     }
 }

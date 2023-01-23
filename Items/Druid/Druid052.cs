@@ -11,8 +11,7 @@ namespace BTDMod.Items.Druid
 {
     class Druid052 : ModItem
     {
-        // TODO the mana cost when holding the item is inconsistent; doesnt use any mana until max vine radius where it suddenly deletes all ur mana
-        // test the fix
+        // TODO what the fuck is going on when i spawn vines?!??!
         int vineRadiusExpansionCooldown;
         int baseUseTime;
         const int maxVineRadius = 40;
@@ -27,7 +26,7 @@ namespace BTDMod.Items.Druid
             baseUseTime = Item.useTime;
             Item.useAnimation = 27;
             Item.useStyle = ItemUseStyleID.MowTheLawn;
-            Item.rare = 2;
+            Item.rare = ItemRarityID.Green;
             Item.autoReuse = true;
             Item.mana = 5;
             Item.width = 32;
@@ -59,7 +58,7 @@ namespace BTDMod.Items.Druid
                         // recalculate position based off the tile's position in the array
                         Vector2 position = new((j * 16f) - (player.width / 2) + 16f, (k * 16f) + 4);
                         // dont spawn a new vine if there is one already there
-                        if (!Array.Exists(Main.projectile, element => element.position == position)) {
+                        if (!Array.Exists(Main.projectile, element => element.Center == position) || !Array.Find(Main.projectile, element => element.Center == position).active) {
                             // calculate what colour the projectile should be when it spawns
                             float frame = (player.position - position).Length() * 3 / (40 * 16);
                             // damage based on how close the projectile is to the player
