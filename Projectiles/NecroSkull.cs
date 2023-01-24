@@ -33,6 +33,7 @@ namespace BTDMod.Projectiles
             Projectile.scale = 0.6f;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 20;
+            Projectile.tileCollide = false;
         }
         public override void SetStaticDefaults()
         {
@@ -53,7 +54,7 @@ namespace BTDMod.Projectiles
             SpawnDust();
             Timer++;
             if (Timer < HOMING_DELAY) return;
-            NPC closest = FindClosestNPC(500);
+            NPC closest = FindClosestNPC(750);
             if (closest == null) return;
 
             // the stuff below does the projectile homing
@@ -131,18 +132,19 @@ namespace BTDMod.Projectiles
 		}
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            // spawns 2 more skulls if the target is dead
+            // spawns 5 more skulls if the target is dead
             if (!target.active) {
                 // the new projectiles spawn at an angle
+                const int numProj = 5;
                 double baseAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y);
-                const double spread = 30 / (180 / Math.PI);
+                const double spread = 20 / (180 / Math.PI); // each projectile spawns at a 20 degree angle from the previous
                 float baseSpeed = Projectile.velocity.Length();
-                double Angle1 = baseAngle + spread;
-                double Angle2 = baseAngle - spread;
-                Vector2 velocity1 = new(baseSpeed * (float)Math.Sin(Angle1), baseSpeed * (float)Math.Cos(Angle1));
-                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, velocity1, Projectile.type, damage, knockback, Projectile.owner);
-                Vector2 velocity2 = new(baseSpeed * (float)Math.Sin(Angle2), baseSpeed * (float)Math.Cos(Angle2));
-                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, velocity2, Projectile.type, damage, knockback, Projectile.owner);
+                double angle = baseAngle - (spread * (numProj - 1) / 2);
+                for (int i = 0; i < numProj; i++) {
+                    angle += spread;
+                    Vector2 velocity = new(baseSpeed * (float)Math.Sin(angle), baseSpeed * (float)Math.Cos(angle));
+                    Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, velocity, Projectile.type, damage, knockback, Projectile.owner);
+                }
             }
             hitTarget = true;
         }
