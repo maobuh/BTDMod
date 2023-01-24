@@ -11,7 +11,7 @@ namespace BTDMod.Items.Wizard
         {
             Item.CloneDefaults(ModContent.ItemType<Wizard000>());
             Item.damage = 30;
-            Item.rare = ItemRarityID.Orange;
+            Item.rare = ItemRarityID.LightRed;
             Item.shoot = ModContent.ProjectileType<ArchmageBullet>();
             Item.shootSpeed = 20f;
             Item.useTime = 12;
