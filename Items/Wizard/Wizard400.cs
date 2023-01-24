@@ -27,6 +27,7 @@ namespace BTDMod.Items.Wizard
             Recipe recipe = Recipe.Create(Item.type);
             recipe.AddIngredient(null, "Wizard300", 1);
             recipe.AddIngredient(ItemID.PixieDust, 10);
+            recipe.AddTile(TileID.Bookcases);
             recipe.Register();
         }
     }

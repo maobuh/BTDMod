@@ -77,7 +77,7 @@ namespace BTDMod.Items.Wizard
             Recipe recipe = Recipe.Create(Item.type);
             recipe.AddIngredient(null, "Wizard030", 1);
             recipe.AddIngredient(ItemID.SpectreBar, 1);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.Bookcases);
             recipe.Register();
         }
     }

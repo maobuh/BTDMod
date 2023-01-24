@@ -25,6 +25,7 @@ namespace BTDMod.Items.Sniper
             Recipe recipe = Recipe.Create(Item.type);
             recipe.AddIngredient(null, "Sniper000", 1);
             recipe.AddIngredient(ItemID.JungleSpores, 8);
+            recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }
     }

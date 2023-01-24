@@ -1,0 +1,157 @@
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
+using Terraria.Audio;
+using Terraria.ModLoader;
+using System;
+using Terraria.DataStructures;
+
+namespace BTDMod.Projectiles
+{
+    class NecroSkull : ModProjectile
+    {
+        const float MAX_ANGLE_CHANGE = 0.05f;
+        const int UNIQUE_FRAMES = 3;
+        const int FRAMES = (UNIQUE_FRAMES * 2) - 2;
+        const float HOMING_DELAY = 15;
+        int currentFrame;
+        bool hitTarget;
+        float Timer {
+            get => Projectile.localAI[0];
+            set => Projectile.localAI[0] = value;
+        }
+        public override void SetDefaults()
+        {
+            Projectile.width = 18;
+            Projectile.height = 16;
+            Projectile.penetrate = 3;
+            Projectile.alpha = 0;
+            Projectile.light = 0.5f;
+            Projectile.friendly = true;
+            Projectile.timeLeft = 480;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.scale = 0.6f;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
+        }
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[Projectile.type] = UNIQUE_FRAMES;
+        }
+        public override void AI()
+        {
+            FixRotation();
+            // deals with animation frames
+            float frameTime = 10 / (Projectile.extraUpdates + 1);
+            // frameTime is how long each frame should last for
+            if (++Projectile.frameCounter >= frameTime)
+            {
+                Projectile.frameCounter = 0;
+                // technically 8 frames total instead of 5, since the scope is supposed to enlarge then minimise in a cycle
+                currentFrame = ++currentFrame % FRAMES;
+                Projectile.frame = currentFrame >= UNIQUE_FRAMES? FRAMES - currentFrame: currentFrame;
+            }
+            SpawnDust();
+            Timer++;
+            if (Timer < HOMING_DELAY) return;
+            NPC closest = FindClosestNPC(500);
+            if (closest == null) return;
+
+            // the stuff below does the projectile homing
+            Vector2 targetDir = closest.Center - Projectile.Center;
+            Vector2 velocity = Projectile.velocity;
+            targetDir.Normalize();
+            velocity.Normalize();
+            // THIS FUCKING WORKS, THANK YOU MATH STACKEXCHANGE GUY https://math.stackexchange.com/questions/878785/how-to-find-an-angle-in-range0-360-between-2-vectors
+            // finds the angle between the targetDir and velocity
+            // this will slowly curve the projectile to the correct position as AI reruns
+            float dotProd = Vector2.Dot(targetDir, velocity);
+            dotProd = dotProd > 1? 1: dotProd;
+            float det = (targetDir.X * velocity.Y) - (targetDir.Y * velocity.X);
+            double angleChange = Math.Atan2(det, dotProd);
+            // the change in the angle has a maximum to ensure a nice looking curve
+            if (angleChange > MAX_ANGLE_CHANGE) {
+                angleChange = angleChange > 0? MAX_ANGLE_CHANGE: -MAX_ANGLE_CHANGE;
+            }
+            double baseAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y);
+            baseAngle += angleChange;
+            float baseSpeed = Projectile.velocity.Length();
+            // rotate the velocity by the angleChange
+            Projectile.velocity = new(baseSpeed * (float)Math.Sin(baseAngle), baseSpeed * (float)Math.Cos(baseAngle));
+            // rotate sprite to point in the correct direction
+            FixRotation();
+        }
+        // does particle effects
+        // copied from joost focussoulsbeam
+        private void SpawnDust() {
+            Vector2 dustPos = Projectile.Center;
+            float num1 = Projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1 ? -1.0f : 1.0f) * 1.57f);
+            float num2 = (float)((Main.rand.NextDouble() * 0.8f) + 1.0f);
+            Vector2 dustVel = new((float)Math.Cos(num1) * num2, (float)Math.Sin(num1) * num2);
+            Dust dust = Main.dust[Dust.NewDust(dustPos, 0, 0, DustID.Shadowflame, dustVel.X, dustVel.Y, 0)];
+            dust.noGravity = true;
+            dust.scale = 1.2f;
+        }
+        // ensures the skull is upright when spawned and before hitting an enemy,
+        // but doesnt flip the sprite anymore, after it hits an enemy cos it looks weird
+        private void FixRotation() {
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            if (hitTarget) return;
+            if (Projectile.velocity.X < 0) {
+                Projectile.rotation += (float)Math.PI;
+                Projectile.spriteDirection = -1;
+            }
+        }
+        public NPC FindClosestNPC(float maxDetectDistance) {
+			NPC closestNPC = null;
+
+			// Using squared values in distance checks will let us skip square root calculations, drastically improving this method's speed.
+			float sqrMaxDetectDistance = maxDetectDistance * maxDetectDistance;
+
+			// Loop through all NPCs(max always 200)
+			for (int k = 0; k < Main.maxNPCs; k++) {
+				NPC target = Main.npc[k];
+				// Check if NPC able to be targeted. It means that NPC is
+				// 1. active (alive)
+				// 2. chaseable (e.g. not a cultist archer)
+				// 3. max life bigger than 5 (e.g. not a critter)
+				// 4. can take damage (e.g. moonlord core after all it's parts are downed)
+				// 5. hostile (!friendly)
+				// 6. not immortal (e.g. not a target dummy)
+				if (target.CanBeChasedBy()) {
+					// The DistanceSquared function returns a squared distance between 2 points, skipping relatively expensive square root calculations
+					float sqrDistanceToTarget = Vector2.DistanceSquared(target.Center, Projectile.Center);
+					// Check if it is within the radius
+					if (sqrDistanceToTarget < sqrMaxDetectDistance) {
+                        // check that the target has not already been hit
+                        sqrMaxDetectDistance = sqrDistanceToTarget;
+                        closestNPC = target;
+					}
+				}
+			}
+            return closestNPC;
+		}
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            // spawns 2 more skulls if the target is dead
+            if (!target.active) {
+                // the new projectiles spawn at an angle
+                double baseAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y);
+                const double spread = 30 / (180 / Math.PI);
+                float baseSpeed = Projectile.velocity.Length();
+                double Angle1 = baseAngle + spread;
+                double Angle2 = baseAngle - spread;
+                Vector2 velocity1 = new(baseSpeed * (float)Math.Sin(Angle1), baseSpeed * (float)Math.Cos(Angle1));
+                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, velocity1, Projectile.type, damage, knockback, Projectile.owner);
+                Vector2 velocity2 = new(baseSpeed * (float)Math.Sin(Angle2), baseSpeed * (float)Math.Cos(Angle2));
+                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, velocity2, Projectile.type, damage, knockback, Projectile.owner);
+            }
+            hitTarget = true;
+        }
+        // makes the sprite rotation correct when spawned from killing an enemy
+        public override void OnSpawn(IEntitySource source)
+        {
+            FixRotation();
+        }
+    }
+}

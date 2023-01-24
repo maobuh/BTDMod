@@ -67,6 +67,7 @@ namespace BTDMod.Items.Wizard
             recipe.AddIngredient(ItemID.HellstoneBar, 3);
             recipe.AddIngredient(null, "Wizard000", 1);
             recipe.AddIngredient(ItemID.LavaBucket, 1);
+            recipe.AddTile(TileID.Bookcases);
             recipe.Register();
         }
     }

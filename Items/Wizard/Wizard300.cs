@@ -15,7 +15,7 @@ namespace BTDMod.Items.Wizard
             Item.shoot = ModContent.ProjectileType<MageBullet>();
             Item.shootSpeed = 20f;
             Item.useTime = 20;
-            Item.useAnimation = 10;
+            Item.useAnimation = 20;
         }
         public override void SetStaticDefaults()
         {
@@ -27,6 +27,7 @@ namespace BTDMod.Items.Wizard
             Recipe recipe = Recipe.Create(Item.type);
             recipe.AddIngredient(null, "Wizard000", 1);
             recipe.AddIngredient(ItemID.Book, 3);
+            recipe.AddTile(TileID.Bookcases);
             recipe.Register();
         }
     }
