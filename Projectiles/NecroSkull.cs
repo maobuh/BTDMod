@@ -40,14 +40,13 @@ namespace BTDMod.Projectiles
         }
         public override void AI()
         {
-            FixRotation();
             // deals with animation frames
             float frameTime = 10 / (Projectile.extraUpdates + 1);
             // frameTime is how long each frame should last for
             if (++Projectile.frameCounter >= frameTime)
             {
                 Projectile.frameCounter = 0;
-                // technically 8 frames total instead of 5, since the scope is supposed to enlarge then minimise in a cycle
+                // allows the animation to loop forwards then backwards etc.
                 currentFrame = ++currentFrame % FRAMES;
                 Projectile.frame = currentFrame >= UNIQUE_FRAMES? FRAMES - currentFrame: currentFrame;
             }
@@ -93,7 +92,7 @@ namespace BTDMod.Projectiles
             dust.scale = 1.2f;
         }
         // ensures the skull is upright when spawned and before hitting an enemy,
-        // but doesnt flip the sprite anymore, after it hits an enemy cos it looks weird
+        // but doesnt flip the sprite anymore after it hits an enemy cos it looks weird
         private void FixRotation() {
             Projectile.rotation = Projectile.velocity.ToRotation();
             if (hitTarget) return;
@@ -123,7 +122,6 @@ namespace BTDMod.Projectiles
 					float sqrDistanceToTarget = Vector2.DistanceSquared(target.Center, Projectile.Center);
 					// Check if it is within the radius
 					if (sqrDistanceToTarget < sqrMaxDetectDistance) {
-                        // check that the target has not already been hit
                         sqrMaxDetectDistance = sqrDistanceToTarget;
                         closestNPC = target;
 					}
