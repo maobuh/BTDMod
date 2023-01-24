@@ -45,6 +45,7 @@ namespace BTDMod.Items.Wizard
             Recipe recipe = Recipe.Create(Item.type);
             recipe.AddIngredient(null, "Wizard400", 1);
             recipe.AddIngredient(ItemID.Ectoplasm, 5);
+            recipe.AddTile(TileID.Bookcases);
             recipe.Register();
         }
     }

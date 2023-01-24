@@ -80,6 +80,7 @@ namespace BTDMod.Items.Sniper
             Recipe recipe = Recipe.Create(Item.type);
             recipe.AddIngredient(null, "Sniper004", 1);
             recipe.AddIngredient(ItemID.BeetleHusk, 5);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.Register();
         }
     }
