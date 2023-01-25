@@ -44,6 +44,7 @@ namespace BTDMod.Items.Sniper
         {
             Recipe recipe = Recipe.Create(Item.type);
             recipe.AddIngredient(null, "Sniper030", 1);
+            recipe.AddTile(TileID.MythrilAnvil);
 
             Recipe recipe2 = recipe.Clone();
 

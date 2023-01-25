@@ -38,6 +38,7 @@ namespace BTDMod.Items.Sniper
             Recipe recipe = Recipe.Create(Item.type);
             recipe.AddIngredient(null, "Sniper400", 1);
             recipe.AddIngredient(ItemID.FragmentVortex, 3);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.Register();
         }
     }

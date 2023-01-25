@@ -4,12 +4,22 @@ using Terraria.ID;
 using Terraria.Audio;
 using Terraria.ModLoader;
 using System;
+using Terraria.DataStructures;
 
 namespace BTDMod.Projectiles
 {
-    class WizardBullet : ModProjectile
+    class NecroSkull : ModProjectile
     {
-        const float MAX_ANGLE_CHANGE = 0.15f;
+        const float MAX_ANGLE_CHANGE = 0.05f;
+        const int UNIQUE_FRAMES = 3;
+        const int FRAMES = (UNIQUE_FRAMES * 2) - 2;
+        const float HOMING_DELAY = 15;
+        int currentFrame;
+        bool hitTarget;
+        float Timer {
+            get => Projectile.localAI[0];
+            set => Projectile.localAI[0] = value;
+        }
         public override void SetDefaults()
         {
             Projectile.width = 18;
@@ -20,12 +30,31 @@ namespace BTDMod.Projectiles
             Projectile.friendly = true;
             Projectile.timeLeft = 480;
             Projectile.DamageType = DamageClass.Magic;
+            Projectile.scale = 0.6f;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
+            Projectile.tileCollide = false;
+        }
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[Projectile.type] = UNIQUE_FRAMES;
         }
         public override void AI()
         {
-            Projectile.rotation = Projectile.velocity.ToRotation();
+            // deals with animation frames
+            float frameTime = 10 / (Projectile.extraUpdates + 1);
+            // frameTime is how long each frame should last for
+            if (++Projectile.frameCounter >= frameTime)
+            {
+                Projectile.frameCounter = 0;
+                // allows the animation to loop forwards then backwards etc.
+                currentFrame = ++currentFrame % FRAMES;
+                Projectile.frame = currentFrame >= UNIQUE_FRAMES? FRAMES - currentFrame: currentFrame;
+            }
             SpawnDust();
-            NPC closest = FindClosestNPC(500);
+            Timer++;
+            if (Timer < HOMING_DELAY) return;
+            NPC closest = FindClosestNPC(750);
             if (closest == null) return;
 
             // the stuff below does the projectile homing
@@ -50,7 +79,7 @@ namespace BTDMod.Projectiles
             // rotate the velocity by the angleChange
             Projectile.velocity = new(baseSpeed * (float)Math.Sin(baseAngle), baseSpeed * (float)Math.Cos(baseAngle));
             // rotate sprite to point in the correct direction
-            Projectile.rotation = Projectile.velocity.ToRotation();
+            FixRotation();
         }
         // does particle effects
         // copied from joost focussoulsbeam
@@ -59,9 +88,19 @@ namespace BTDMod.Projectiles
             float num1 = Projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1 ? -1.0f : 1.0f) * 1.57f);
             float num2 = (float)((Main.rand.NextDouble() * 0.8f) + 1.0f);
             Vector2 dustVel = new((float)Math.Cos(num1) * num2, (float)Math.Sin(num1) * num2);
-            Dust dust = Main.dust[Dust.NewDust(dustPos, 0, 0, DustID.DemonTorch, dustVel.X, dustVel.Y, 0)];
+            Dust dust = Main.dust[Dust.NewDust(dustPos, 0, 0, DustID.Shadowflame, dustVel.X, dustVel.Y, 0)];
             dust.noGravity = true;
             dust.scale = 1.2f;
+        }
+        // ensures the skull is upright when spawned and before hitting an enemy,
+        // but doesnt flip the sprite anymore after it hits an enemy cos it looks weird
+        private void FixRotation() {
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            if (hitTarget) return;
+            if (Projectile.velocity.X < 0) {
+                Projectile.rotation += (float)Math.PI;
+                Projectile.spriteDirection = -1;
+            }
         }
         public NPC FindClosestNPC(float maxDetectDistance) {
 			NPC closestNPC = null;
@@ -84,7 +123,6 @@ namespace BTDMod.Projectiles
 					float sqrDistanceToTarget = Vector2.DistanceSquared(target.Center, Projectile.Center);
 					// Check if it is within the radius
 					if (sqrDistanceToTarget < sqrMaxDetectDistance) {
-                        // check that the target has not already been hit
                         sqrMaxDetectDistance = sqrDistanceToTarget;
                         closestNPC = target;
 					}
@@ -92,5 +130,28 @@ namespace BTDMod.Projectiles
 			}
             return closestNPC;
 		}
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            // spawns 5 more skulls if the target is dead
+            if (!target.active) {
+                // the new projectiles spawn at an angle
+                const int numProj = 5;
+                double baseAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y);
+                const double spread = 20 / (180 / Math.PI); // each projectile spawns at a 20 degree angle from the previous
+                float baseSpeed = Projectile.velocity.Length();
+                double angle = baseAngle - (spread * (numProj - 1) / 2);
+                for (int i = 0; i < numProj; i++) {
+                    angle += spread;
+                    Vector2 velocity = new(baseSpeed * (float)Math.Sin(angle), baseSpeed * (float)Math.Cos(angle));
+                    Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, velocity, Projectile.type, damage, knockback, Projectile.owner);
+                }
+            }
+            hitTarget = true;
+        }
+        // makes the sprite rotation correct when spawned from killing an enemy
+        public override void OnSpawn(IEntitySource source)
+        {
+            FixRotation();
+        }
     }
 }

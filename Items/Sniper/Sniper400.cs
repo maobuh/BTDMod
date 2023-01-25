@@ -24,6 +24,7 @@ namespace BTDMod.Items.Sniper
             Recipe recipe = Recipe.Create(Item.type);
             recipe.AddIngredient(null, "Sniper000", 1);
             recipe.AddIngredient(ItemID.HellstoneBar, 5);
+            recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }
     }

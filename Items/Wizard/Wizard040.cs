@@ -33,6 +33,7 @@ namespace BTDMod.Items.Wizard
             Item.DamageType = DamageClass.Magic;
             Item.shoot = ModContent.ProjectileType<FlameBreath>();
             Item.shootSpeed = 16f;
+            Item.mana = 3;
         }
         public override void SetStaticDefaults()
         {
@@ -52,7 +53,7 @@ namespace BTDMod.Items.Wizard
         public override void HoldItem(Player player)
         {
             if (BTDMod.MonkeyAbilityHotKey.JustPressed && !player.HasBuff<PhoenixCooldown>()) {
-                Projectile.NewProjectile(Item.GetSource_FromThis(), player.Center, new Vector2(0, -1), ModContent.ProjectileType<PhoenixMinion>(), 100, 0, player.whoAmI);
+                Projectile.NewProjectile(new EntitySource_ItemUse(player, Item), player.Center, new Vector2(0, -1), ModContent.ProjectileType<PhoenixMinion>(), 0, 0, player.whoAmI);
                 player.AddBuff(ModContent.BuffType<PhoenixCooldown>(), ABILITY_COOLDOWN);
                 player.AddBuff(ModContent.BuffType<PhoenixBuff>(), ABILITY_DURATION);
             }
@@ -75,8 +76,8 @@ namespace BTDMod.Items.Wizard
         {
             Recipe recipe = Recipe.Create(Item.type);
             recipe.AddIngredient(null, "Wizard030", 1);
-            recipe.AddIngredient(ItemID.HellstoneBrick, 1);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.SpectreBar, 1);
+            recipe.AddTile(TileID.Bookcases);
             recipe.Register();
         }
     }

@@ -4,12 +4,18 @@ using Terraria.ID;
 using Terraria.Audio;
 using Terraria.ModLoader;
 using System;
+using BTDMod.Dusts;
 
 namespace BTDMod.Projectiles
 {
-    class WizardBullet : ModProjectile
+    class ArchmageBullet : ModProjectile
     {
-        const float MAX_ANGLE_CHANGE = 0.15f;
+        const float MAX_ANGLE_CHANGE = 0.4f;
+        const float HOMING_DELAY = 15;
+        float Timer {
+            get => Projectile.localAI[0];
+            set => Projectile.localAI[0] = value;
+        }
         public override void SetDefaults()
         {
             Projectile.width = 18;
@@ -20,11 +26,22 @@ namespace BTDMod.Projectiles
             Projectile.friendly = true;
             Projectile.timeLeft = 480;
             Projectile.DamageType = DamageClass.Magic;
+            Projectile.scale = 1.2f;
+            Projectile.penetrate = 7;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
         }
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation();
-            SpawnDust();
+            Timer++;
+            // spawns dusts at 8 frame intervals
+            if ((Timer % 8) == 0) {
+                SpawnDust();
+            }
+            // does not home until after a delay
+            if (Timer < HOMING_DELAY) return;
+            // finds the closest npc to home in onto
             NPC closest = FindClosestNPC(500);
             if (closest == null) return;
 
@@ -56,12 +73,8 @@ namespace BTDMod.Projectiles
         // copied from joost focussoulsbeam
         private void SpawnDust() {
             Vector2 dustPos = Projectile.Center;
-            float num1 = Projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1 ? -1.0f : 1.0f) * 1.57f);
-            float num2 = (float)((Main.rand.NextDouble() * 0.8f) + 1.0f);
-            Vector2 dustVel = new((float)Math.Cos(num1) * num2, (float)Math.Sin(num1) * num2);
-            Dust dust = Main.dust[Dust.NewDust(dustPos, 0, 0, DustID.DemonTorch, dustVel.X, dustVel.Y, 0)];
-            dust.noGravity = true;
-            dust.scale = 1.2f;
+            Dust dust = Main.dust[Dust.NewDust(dustPos, 0, 0, ModContent.DustType<ArchmageDust>(), 0, 0, 0)];
+            dust.rotation = Projectile.velocity.ToRotation();
         }
         public NPC FindClosestNPC(float maxDetectDistance) {
 			NPC closestNPC = null;

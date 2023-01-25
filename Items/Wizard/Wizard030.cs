@@ -30,6 +30,7 @@ namespace BTDMod.Items.Wizard
             Item.DamageType = DamageClass.Magic;
             Item.shoot = ModContent.ProjectileType<FlameBreath>();
             Item.shootSpeed = 16f;
+            Item.mana = 3;
         }
         public override void SetStaticDefaults()
         {
@@ -64,7 +65,9 @@ namespace BTDMod.Items.Wizard
         {
             Recipe recipe = Recipe.Create(Item.type);
             recipe.AddIngredient(ItemID.HellstoneBar, 3);
+            recipe.AddIngredient(null, "Wizard000", 1);
             recipe.AddIngredient(ItemID.LavaBucket, 1);
+            recipe.AddTile(TileID.Bookcases);
             recipe.Register();
         }
     }
