@@ -26,6 +26,7 @@ namespace BTDMod.Projectiles
             Projectile.DamageType = DamageClass.Magic;
             Projectile.scale = 1.2f;
             Projectile.penetrate = 7;
+            Projectile.netImportant = true;
         }
         public override void AI()
         {

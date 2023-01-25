@@ -20,6 +20,7 @@ namespace BTDMod.Projectiles
             Projectile.friendly = true;
             Projectile.timeLeft = 480;
             Projectile.DamageType = DamageClass.Magic;
+            Projectile.netImportant = true;
         }
         public override void AI()
         {
