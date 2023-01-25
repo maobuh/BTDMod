@@ -11,7 +11,7 @@ namespace BTDMod.Items.Druid
 {
     class Druid052 : ModItem
     {
-        // TODO what the fuck is going on when i spawn vines?!??!
+        // TODO edit inside the for loop in holditem to pass the start of laser in projectile.ai[0] and the length in projectile.ai[1]
         int vineRadiusExpansionCooldown;
         int baseUseTime;
         const int maxVineRadius = 40;
@@ -49,9 +49,9 @@ namespace BTDMod.Items.Druid
             // no idea why they do width / 2 and not height / 2
             int tileX = (int)((player.position.X + (player.width / 2)) / 16f);
             int tileY = (int)((player.position.Y + player.height) / 16f);
-            for (int j = tileX - player.GetModPlayer<BTDPlayer>().vineRadius; j <= tileX + player.GetModPlayer<BTDPlayer>().vineRadius; j++)
+            for (int k = tileY - player.GetModPlayer<BTDPlayer>().vineRadius; k < tileY + player.GetModPlayer<BTDPlayer>().vineRadius; k++)
             {
-                for (int k = tileY - player.GetModPlayer<BTDPlayer>().vineRadius; k < tileY + player.GetModPlayer<BTDPlayer>().vineRadius; k++)
+                for (int j = tileX - player.GetModPlayer<BTDPlayer>().vineRadius; j <= tileX + player.GetModPlayer<BTDPlayer>().vineRadius; j++)
                 {
                     // checks tiles around the player for if they are solid and have an empty space above them
                     if (Main.tile[j, k].TileType != 0 && Main.tileSolid[Main.tile[j, k].TileType] && (!Main.tile[j, k-1].HasTile || !Main.tileSolid[Main.tile[j, k - 1].TileType])) {
