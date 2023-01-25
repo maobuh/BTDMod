@@ -34,6 +34,7 @@ namespace BTDMod.Projectiles
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 20;
             Projectile.tileCollide = false;
+            Projectile.netImportant = true;
         }
         public override void SetStaticDefaults()
         {

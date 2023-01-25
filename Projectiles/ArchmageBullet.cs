@@ -30,6 +30,7 @@ namespace BTDMod.Projectiles
             Projectile.penetrate = 7;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 20;
+            Projectile.netImportant = true;
         }
         public override void AI()
         {
