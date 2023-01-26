@@ -21,7 +21,7 @@ namespace BTDMod.Items
             Item.useAnimation = 1;
             Item.useStyle = ItemUseStyleID.MowTheLawn;
             Item.value = Item.sellPrice(0, 0, 0, 20);
-            Item.rare = 2;
+            Item.rare = ItemRarityID.Green;
             Item.autoReuse = true;
             Item.width = 32;
             Item.height = 32;
