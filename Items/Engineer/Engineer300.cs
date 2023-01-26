@@ -13,7 +13,7 @@ namespace BTDMod.Items.Engineer
 	public class Engineer300 : ModItem
 	{
 		public override void SetStaticDefaults() {
-			DisplayName.SetDefault("Engineer 3-0-0");
+			DisplayName.SetDefault("Engineer Monkey 3-0-0");
 			Tooltip.SetDefault("Engineer gaming");
 
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;

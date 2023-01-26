@@ -79,8 +79,9 @@ namespace BTDMod.Projectiles
 			if (!foundTarget) return;
 			if (Timer % shootSpeed == 0) {
 				const float projSpeed = 20f;
-				nailVelocity = (targetCenter - Projectile.Center).SafeNormalize(Vector2.Zero) * projSpeed;
-				Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center + new Vector2(0,-16), nailVelocity, projType, Projectile.damage, 0, owner.whoAmI);
+				Vector2 dir = (targetCenter - Projectile.Center).SafeNormalize(Vector2.Zero);
+				nailVelocity = dir * projSpeed;
+				Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center + new Vector2(0,-16) + (dir * 30), nailVelocity, projType, Projectile.damage, 0, owner.whoAmI);
 			}
 			Timer++;
 		}
