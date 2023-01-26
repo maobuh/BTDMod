@@ -9,11 +9,11 @@ using BTDMod.Buffs;
 
 namespace BTDMod.Items.DartMonkey
 {
-    class DartMonkey040 : ModItem
+    class DartMonkey050 : ModItem
     {
         public override void SetDefaults()
         {
-            Item.damage = 20;
+            Item.damage = 150;
             Item.noMelee = true;
             Item.DamageType = DamageClass.Melee;
             Item.shoot = ModContent.ProjectileType<Dart>();
@@ -28,16 +28,17 @@ namespace BTDMod.Items.DartMonkey
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Super Monkey Fan Club");
-            Tooltip.SetDefault("Press the Monkey Ability Hotkey to spawn a swarm of Super Monkeys");
+            DisplayName.SetDefault("Plasma Monkey Fan Club");
+            Tooltip.SetDefault("Press the Monkey Ability Hotkey to spawn a swarm of Plasma Monkeys");
         }
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ModContent.ItemType<DartMonkey000>(), 1);
-            recipe.AddIngredient(ItemID.ManaCrystal, 1);
-            recipe.AddIngredient(ItemID.HallowedBar, 1);
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.AddIngredient(ModContent.ItemType<DartMonkey040>(), 1);
+            recipe.AddIngredient(ItemID.Amethyst, 10);
+            recipe.AddIngredient(ItemID.BeetleHusk, 8);
+            recipe.AddIngredient(ItemID.ShadowbeamStaff, 1);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.Register();
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -58,7 +59,7 @@ namespace BTDMod.Items.DartMonkey
             if (!player.HasBuff(ModContent.BuffType<SMFCCooldown>()) && BTDMod.MonkeyAbilityHotKey.JustPressed) {
                 for (int i = 0; i < 10; i++) {
                     Vector2 randPos = new(player.Center.X + ((Main.rand.NextFloat() - 0.5f) * 16 * 10), player.Center.Y + ((Main.rand.NextFloat() - 0.5f) * 16 * 10));
-                    Projectile.NewProjectile(Item.GetSource_ItemUse(Item), randPos, Vector2.Zero, ModContent.ProjectileType<SuperMonkeyMinion>(), Item.damage, 0, player.whoAmI);
+                    Projectile.NewProjectile(Item.GetSource_FromThis(), randPos, Vector2.Zero, ModContent.ProjectileType<Projectiles.DartMonkey.PlasmaMonkeyMinion>(), 10, 0, player.whoAmI);
                 }
                 player.AddBuff(ModContent.BuffType<SMFCCooldown>(), 3000);
             }

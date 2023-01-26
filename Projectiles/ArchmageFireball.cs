@@ -31,7 +31,7 @@ namespace BTDMod.Projectiles
         // copied from joost focussoulsbeam
         private void SpawnDust() {
             Vector2 dustPos = Projectile.Center;
-            float num1 = Projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1 ? -1.0f : 1.0f) * 1.57f);
+            float num1 = Projectile.velocity.ToRotation() + ((Main.rand.NextBool(2)? -1.0f : 1.0f) * 1.57f);
             float num2 = (float)((Main.rand.NextDouble() * 0.8f) + 1.0f);
             Vector2 dustVel = new((float)Math.Cos(num1) * num2, (float)Math.Sin(num1) * num2);
             Dust dust = Main.dust[Dust.NewDust(dustPos, 0, 0, DustID.Flare, dustVel.X, dustVel.Y)];
