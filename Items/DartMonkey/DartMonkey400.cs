@@ -5,35 +5,36 @@ using BTDMod.Projectiles;
 
 namespace BTDMod.Items.DartMonkey
 {
-    class DartMonkey000 : ModItem
+    class DartMonkey400 : ModItem
     {
         public override void SetDefaults()
         {
-            Item.damage = 20;
+            Item.damage = 40;
             Item.noMelee = true;
             Item.DamageType = DamageClass.Melee;
-            Item.shoot = ModContent.ProjectileType<Dart>();
+            Item.shoot = ModContent.ProjectileType<Juggernaut>();
             Item.shootSpeed = 10;
-            Item.useTime = 30;
-            Item.useAnimation = 30;
-            Item.useStyle = ItemUseStyleID.Swing;
-            Item.rare = ItemRarityID.Blue;
+            Item.useTime = 40;
+            Item.useAnimation = 40;
+            Item.useStyle = ItemUseStyleID.Thrust;
+            Item.rare = ItemRarityID.Orange;
             Item.autoReuse = true;
             Item.width = 32;
             Item.height = 32;
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dart Monkey");
-            Tooltip.SetDefault("shoots dart");
+            DisplayName.SetDefault("Juggernaut");
+            Tooltip.SetDefault("Shoots giant spiked balls that bounce of surfaces");
         }
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
             recipe.AddRecipeGroup("IronBar", 5);
-            recipe.AddIngredient(ItemID.Wood, 20);
-            recipe.AddIngredient(ItemID.Acorn, 1);
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.AddIngredient(ModContent.ItemType<DartMonkey000>(), 1);
+            recipe.AddIngredient(ItemID.Obsidian, 10);
+            recipe.AddIngredient(ItemID.MeteoriteBar, 4);
+            recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }
     }
