@@ -14,7 +14,7 @@ namespace BTDMod.Items.Engineer
 	{
 		public override void SetStaticDefaults() {
 			base.SetStaticDefaults();
-			DisplayName.SetDefault("Engineer 4-0-0");
+			DisplayName.SetDefault("Engineer Monkey 4-0-0");
 			Tooltip.SetDefault("Engineer gaming");
 		}
 
