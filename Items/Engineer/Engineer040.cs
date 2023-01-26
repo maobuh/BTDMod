@@ -21,7 +21,9 @@ namespace BTDMod.Items.Engineer
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Engineer Monkey 0-4-0");
-            Tooltip.SetDefault("Doesn't attack, but grants a buff\nthat doubles summon damage and crit chance\nupon pressing the Monkey Button for 15 seconds.");
+            Tooltip.SetDefault("Doesn't attack, but grants a buff that doubles\n" +
+                               "summon damage and crit chance upon pressing the\n" +
+                               "Monkey Button for 15 seconds.");
         }
         public override void HoldItem(Player player)
         {
