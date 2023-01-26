@@ -16,8 +16,8 @@ namespace BTDMod.Projectiles
         }
         public override void SetDefaults()
         {
-			Projectile.width = 61;
-			Projectile.height = 64;
+			Projectile.width = 62;
+			Projectile.height = 61;
 			Projectile.tileCollide = false;
 			Projectile.friendly = true;
 			Projectile.DamageType = DamageClass.Melee;
@@ -26,7 +26,6 @@ namespace BTDMod.Projectiles
         }
         public override void AI()
         {
-            Projectile.frame = Projectile.timeLeft % 2;
             Player player = Main.player[Projectile.owner];
             if (player.dead || !player.active) {
 				Projectile.Kill();
@@ -58,9 +57,10 @@ namespace BTDMod.Projectiles
 				}
 			}
 
-            if (foundTarget) {
+            if (foundTarget && Projectile.timeLeft % 4 == 0) {
+            	Projectile.frame = (Projectile.frame + 1) % 2;
                 Projectile.rotation = (float)Math.Atan2(Projectile.DirectionTo(targetCenter).Y, Projectile.DirectionTo(targetCenter).X);
-                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.DirectionTo(targetCenter) * 50, ModContent.ProjectileType<Dart>(), 1, 0, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.DirectionTo(targetCenter) * 50, ModContent.ProjectileType<Dart>(), 2, 0, Projectile.owner);
             }
         }
     }
