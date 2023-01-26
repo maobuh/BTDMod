@@ -16,7 +16,9 @@ namespace BTDMod.Projectiles
 	// If it isn't attacking, it will float near the player with minimal movement
 	public class EngineerTurret: ModProjectile
 	{
-		const int shootSpeed = 20;
+		protected int shootSpeed = 20;
+		protected int projType = ModContent.ProjectileType<Nail>();
+		protected string projColour = "";
 		float Timer {
 			get => Projectile.localAI[0];
 			set => Projectile.localAI[0] = value;
@@ -64,7 +66,7 @@ namespace BTDMod.Projectiles
 			Main.EntitySpriteDraw((Texture2D) ModContent.Request<Texture2D>("BTDMod/Projectiles/EngineerTurretStand"), Projectile.Center + spriteOffset - Main.screenPosition,
 			new Rectangle(0, 0, 34, 12), Color.White, 0, new Vector2(34 / 2, 12 / 2), 1f, 0, 0);
 			// draws the turret, rotates it according to the direction it's firing the nails
-			Main.EntitySpriteDraw((Texture2D) ModContent.Request<Texture2D>("BTDMod/Projectiles/EngineerTurret"), Projectile.Center + spriteOffset + new Vector2(0,-10) - Main.screenPosition,
+			Main.EntitySpriteDraw((Texture2D) ModContent.Request<Texture2D>("BTDMod/Projectiles/EngineerTurret" + projColour), Projectile.Center + spriteOffset + new Vector2(0,-10) - Main.screenPosition,
 				new Rectangle(0, 0, 34, 16), Color.White, nailVelocity.ToRotation(), new Vector2(34 / 2, 16 / 2), 1f, 0, 0);
             return false;
         }
@@ -78,7 +80,7 @@ namespace BTDMod.Projectiles
 			if (Timer % shootSpeed == 0) {
 				const float projSpeed = 20f;
 				nailVelocity = (targetCenter - Projectile.Center).SafeNormalize(Vector2.Zero) * projSpeed;
-				Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center + new Vector2(0,-16), nailVelocity, ModContent.ProjectileType<Nail>(), Projectile.damage, 0, owner.whoAmI);
+				Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center + new Vector2(0,-16), nailVelocity, projType, Projectile.damage, 0, owner.whoAmI);
 			}
 			Timer++;
 		}

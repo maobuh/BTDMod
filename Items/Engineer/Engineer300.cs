@@ -13,7 +13,7 @@ namespace BTDMod.Items.Engineer
 	public class Engineer300 : ModItem
 	{
 		public override void SetStaticDefaults() {
-			DisplayName.SetDefault("Engineer300");
+			DisplayName.SetDefault("Engineer 3-0-0");
 			Tooltip.SetDefault("Engineer gaming");
 
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
@@ -22,7 +22,7 @@ namespace BTDMod.Items.Engineer
 		}
 
 		public override void SetDefaults() {
-			Item.damage = 20;
+			Item.damage = 15;
 			Item.knockBack = 3f;
 			Item.width = 34;
 			Item.height = 34;
