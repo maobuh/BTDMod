@@ -40,13 +40,26 @@ namespace BTDMod.Items.Engineer
             Item.shoot = ModContent.ProjectileType<EngineerTurret>(); // This item creates the minion projectile
 		}
 
-		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) {
-			// Here you can change where the minion is spawned. Most vanilla minions spawn at the cursor position
-			position = Main.MouseWorld;
-		}
-
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
-            // This is needed so the buff that keeps your minion alive and allows you to despawn it properly applies
+			// Here you can change where the minion is spawned. Most vanilla minions spawn at the cursor position
+			int x = (int) Main.MouseWorld.X / 16;
+			Vector2? newPosition = null;
+			const int maxDrop = 30;
+			for (int i = 0; i < maxDrop; i++) {
+				int y = ((int) Main.MouseWorld.Y / 16) + i;
+				Tile tile = Framing.GetTileSafely(x,y);
+				// tile.HasTile && tile.BlockType == BlockType.Solid || Main.tileSolidTop[tile.TileType] doesnt work since
+				// it checks solid blocks such as trees/actuated blocks etc.
+				// !Collision.CanHit(Main.MouseWorld, 34, 24, Main.MouseWorld + new Vector2(0, i * 16), 34, 24) checks line of sight between 2 positions
+				// and does some funky ass stuff and idk why
+				if (tile.HasTile && tile.BlockType == BlockType.Solid && Main.tileSolid[tile.TileType] && !tile.IsActuated) {
+					newPosition = new Vector2(16 * x, 16 * y);
+					break;
+				}
+			}
+			if (newPosition == null) return false;
+			position = (Vector2)newPosition;
+			// This is needed so the buff that keeps your minion alive and allows you to despawn it properly applies
 			player.AddBuff(Item.buffType, 2);
 			// Minions have to be spawned manually, then have originalDamage assigned to the damage of the summon item
 			var projectile = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback, Main.myPlayer);
@@ -55,8 +68,6 @@ namespace BTDMod.Items.Engineer
 			// Since we spawned the projectile manually already, we do not need the game to spawn it for ourselves anymore, so return false
 			return false;
 		}
-
-		// Please see Content/ExampleRecipes.cs for a detailed explanation of recipe creation.
 		public override void AddRecipes() {
 			Recipe recipe = Recipe.Create(Item.type);
             recipe.AddRecipeGroup("IronBar", 5);

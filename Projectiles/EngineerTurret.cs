@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Creative;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
 using Terraria.ModLoader;
 using BTDMod.Buffs;
@@ -20,6 +21,9 @@ namespace BTDMod.Projectiles
 			get => Projectile.localAI[0];
 			set => Projectile.localAI[0] = value;
 		}
+		Vector2 nailVelocity = Vector2.Zero;
+		// some magic number to make the turret look like its sitting on the tile properly
+		Vector2 spriteOffset = new(0,-5);
 		public override void SetStaticDefaults() {
 			DisplayName.SetDefault("Engineer Turret");
 			// This is necessary for right-click targeting
@@ -32,9 +36,9 @@ namespace BTDMod.Projectiles
 		}
 
 		public sealed override void SetDefaults() {
-			Projectile.width = 18;
-			Projectile.height = 28;
-			Projectile.tileCollide = true; // Makes the minion go through tiles freely
+			Projectile.width = 34;
+			Projectile.height = 24;
+			Projectile.tileCollide = true;
 
 			// These below are needed for a minion weapon
 			Projectile.friendly = true; // Only controls if it deals damage to enemies on contact (more on that later)
@@ -54,7 +58,17 @@ namespace BTDMod.Projectiles
 		public override bool MinionContactDamage() {
 			return false;
 		}
-		public override void AI() {
+        public override bool PreDraw(ref Color lightColor)
+        {
+			// draws the stand of the turret
+			Main.EntitySpriteDraw((Texture2D) ModContent.Request<Texture2D>("BTDMod/Projectiles/EngineerTurretStand"), Projectile.Center + spriteOffset - Main.screenPosition,
+			new Rectangle(0, 0, 34, 12), Color.White, 0, new Vector2(34 / 2, 12 / 2), 1f, 0, 0);
+			// draws the turret, rotates it according to the direction it's firing the nails
+			Main.EntitySpriteDraw((Texture2D) ModContent.Request<Texture2D>("BTDMod/Projectiles/EngineerTurret"), Projectile.Center + spriteOffset + new Vector2(0,-10) - Main.screenPosition,
+				new Rectangle(0, 0, 34, 16), Color.White, nailVelocity.ToRotation(), new Vector2(34 / 2, 16 / 2), 1f, 0, 0);
+            return false;
+        }
+        public override void AI() {
 			Player owner = Main.player[Projectile.owner];
 			if (!CheckActive(owner)) {
 				return;
@@ -63,9 +77,8 @@ namespace BTDMod.Projectiles
 			if (!foundTarget) return;
 			if (Timer % shootSpeed == 0) {
 				const float projSpeed = 20f;
-				Vector2 nailVelocity = (targetCenter - Projectile.Center).SafeNormalize(Vector2.Zero) * projSpeed;
-				Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, nailVelocity, ModContent.ProjectileType<Nail>(), Projectile.damage, 0, owner.whoAmI);
-				Visuals(nailVelocity);
+				nailVelocity = (targetCenter - Projectile.Center).SafeNormalize(Vector2.Zero) * projSpeed;
+				Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center + new Vector2(0,-16), nailVelocity, ModContent.ProjectileType<Nail>(), Projectile.damage, 0, owner.whoAmI);
 			}
 			Timer++;
 		}
@@ -87,7 +100,7 @@ namespace BTDMod.Projectiles
 
 		private void SearchForTargets(Player owner, out bool foundTarget, out float distanceFromTarget, out Vector2 targetCenter) {
 			// Starting search distance
-			distanceFromTarget = 700f;
+			distanceFromTarget = 600f;
 			targetCenter = Projectile.position;
 			foundTarget = false;
 
@@ -126,12 +139,6 @@ namespace BTDMod.Projectiles
 					}
 				}
 			}
-		}
-		private void Visuals(Vector2 direction) {
-			// Turret points at the direction it shot at
-			Projectile.rotation = direction.ToRotation();
-			// Some visuals here
-			Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 0.78f);
 		}
 		// ensures the turret is standing up when spawned
 		public override void OnSpawn(IEntitySource source)

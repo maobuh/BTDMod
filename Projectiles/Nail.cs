@@ -10,7 +10,7 @@ namespace BTDMod.Projectiles
         {
             Projectile.width = 10;
             Projectile.height = 6;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 3;
             Projectile.alpha = 0;
             Projectile.friendly = true;
             Projectile.scale = 1f;
