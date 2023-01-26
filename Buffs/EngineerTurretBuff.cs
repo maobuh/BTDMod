@@ -20,13 +20,28 @@ namespace BTDMod.Buffs {
 		}
 		public override void Update(Player player, ref int buffIndex) {
 			// If the minions exist reset the buff time, otherwise remove the buff from the player
-			if (player.ownedProjectileCounts[ModContent.ProjectileType<EngineerTurret>()] > 0) {
+			if (CountTurrets(player) > 0) {
 				player.buffTime[buffIndex] = 2;
 			}
 			else {
 				player.DelBuff(buffIndex);
 				buffIndex--;
 			}
+		}
+		private int CountTurrets(Player player) {
+			int num = 0;
+			int[] TurretTypes =
+			{
+				ModContent.ProjectileType<EngineerTurret>(),
+				ModContent.ProjectileType<EngineerTurretBlack>(),
+				ModContent.ProjectileType<EngineerTurretYellow>(),
+				ModContent.ProjectileType<EngineerTurretRed>(),
+				ModContent.ProjectileType<EngineerTurretWhite>()
+			};
+			foreach (int i in TurretTypes) {
+				num += player.ownedProjectileCounts[i];
+			}
+			return num;
 		}
 	}
 }
