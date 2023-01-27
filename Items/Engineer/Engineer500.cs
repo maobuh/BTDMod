@@ -21,7 +21,7 @@ namespace BTDMod.Items.Engineer
 		public override void SetDefaults() {
 			base.SetDefaults();
 			Item.damage = 80;
-			Item.rare = ItemRarityID.Orange;
+			Item.rare = ItemRarityID.Cyan;
 			Item.shoot = ModContent.ProjectileType<EngineerTurretPurple>();
 		}
 		public override void AddRecipes() {
