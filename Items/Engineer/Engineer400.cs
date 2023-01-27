@@ -24,7 +24,7 @@ namespace BTDMod.Items.Engineer
 			Item.damage = 35;
 			Item.rare = ItemRarityID.Orange;
 			// without setting shoot here as well, the first turret that spawns when u go ingame is the default green one
-			// only setting this in defaults, randomises the turrets only once, meaning the same turret will always spawn
+			// only setting this in defaults and not shoot, randomises the turrets only once, meaning the same turret will always spawn
 			RandomiseTurret();
 		}
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
