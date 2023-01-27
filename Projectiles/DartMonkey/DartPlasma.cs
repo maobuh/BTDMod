@@ -14,7 +14,7 @@ namespace BTDMod.Projectiles.DartMonkey
             Projectile.penetrate = 5;
             Projectile.localNPCHitCooldown = 60;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.timeLeft = 30;
+            Projectile.timeLeft = 120;
         }
         public override void SetStaticDefaults()
         {

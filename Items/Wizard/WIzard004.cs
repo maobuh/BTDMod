@@ -22,7 +22,7 @@ namespace BTDMod.Items.Wizard
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wizard Monkey 0-0-4");
-            Tooltip.SetDefault("Desecrates the dead");
+            Tooltip.SetDefault("Desecrates the dead to make more homies");
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

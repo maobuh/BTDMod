@@ -14,7 +14,8 @@ namespace BTDMod.Items.Engineer
 	{
 		public override void SetStaticDefaults() {
 			DisplayName.SetDefault("Engineer Monkey 3-0-0");
-			Tooltip.SetDefault("Engineer gaming");
+			Tooltip.SetDefault("Engineer gaming\n" +
+							   "Makes shooty turrets that go pew pew.");
 
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
 			ItemID.Sets.GamepadWholeScreenUseRange[Item.type] = true; // This lets the player target anywhere on the whole screen while using a controller

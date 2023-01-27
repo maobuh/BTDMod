@@ -25,7 +25,8 @@ namespace BTDMod.Items.Wizard
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wizard Monkey 5-0-0");
-            Tooltip.SetDefault("I put my name in the goblet of fire, the Archmage replied calmly.");
+            Tooltip.SetDefault("I put my name in the goblet of fire, the Archmage replied calmly.\n" +
+                               "Master of all elements.");
         }
         public override void HoldItem(Player player)
         {

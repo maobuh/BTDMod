@@ -28,7 +28,7 @@ namespace BTDMod.Buffs {
 				buffIndex--;
 			}
 		}
-		private int CountTurrets(Player player) {
+		private static int CountTurrets(Player player) {
 			int num = 0;
 			int[] TurretTypes =
 			{
@@ -36,7 +36,8 @@ namespace BTDMod.Buffs {
 				ModContent.ProjectileType<EngineerTurretBlack>(),
 				ModContent.ProjectileType<EngineerTurretYellow>(),
 				ModContent.ProjectileType<EngineerTurretRed>(),
-				ModContent.ProjectileType<EngineerTurretWhite>()
+				ModContent.ProjectileType<EngineerTurretWhite>(),
+				ModContent.ProjectileType<EngineerTurretPurple>()
 			};
 			foreach (int i in TurretTypes) {
 				num += player.ownedProjectileCounts[i];
