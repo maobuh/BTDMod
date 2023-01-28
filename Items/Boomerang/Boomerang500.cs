@@ -21,7 +21,7 @@ namespace BTDMod.Items.Boomerang {
             Item.useTime = 30;
             Item.useAnimation = 30;
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.rare = ItemRarityID.LightRed;
+            Item.rare = ItemRarityID.Cyan;
             Item.autoReuse = true;
             Item.width = 42;
             Item.height = 40;

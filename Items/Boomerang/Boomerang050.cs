@@ -19,7 +19,7 @@ namespace BTDMod.Items.Boomerang {
             Item.useTime = 5;
             Item.useAnimation = 5;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.rare = ItemRarityID.LightRed;
+            Item.rare = ItemRarityID.Cyan;
             Item.autoReuse = true;
             Item.width = 42;
             Item.height = 40;
