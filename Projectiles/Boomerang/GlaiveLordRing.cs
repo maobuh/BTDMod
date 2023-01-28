@@ -64,6 +64,7 @@ namespace BTDMod.Projectiles.Boomerang
             // makes the boomerang spin
             Projectile.rotation += 0.2f;
             Projectile.penetrate = 100;
+            // remove the rotating boomerangs if the player is no longer holding Boomerang500
             if (player.HeldItem.type == ModContent.ItemType<Boomerang500>()) {
                 Projectile.Center = player.Center;
                 Projectile.timeLeft = 2;
@@ -81,10 +82,13 @@ namespace BTDMod.Projectiles.Boomerang
             }
             // increase flyRadius to the enemy's distance and the rotation speed if an enemy is nearby
             float distanceToNPC = (closestNPC.Center - player.Center).Length();
+            // slowly decreases / increases the radius to the correct amount
             flyRadius += flyRadius < distanceToNPC? 4: -4;
+            // ensure that the radius of the spin never goes below the default value
             if (flyRadius < DEFAULT_FLY_RADIUS) {
                 flyRadius = DEFAULT_FLY_RADIUS;
             }
+            // slowly increase the rotation speed to the max speed
             if (angleChange < MAX_ANGLE_CHANGE) {
                 angleChange += (float) (0.5 / (180 / Math.PI));
             }
@@ -94,6 +98,7 @@ namespace BTDMod.Projectiles.Boomerang
             Player player = Main.player[Projectile.owner];
             float dirAngle = Projectile.velocity.ToRotation() + angleChange;
             Projectile.velocity = new((float) Math.Cos(dirAngle), (float) Math.Sin(dirAngle));
+            // spawns 3 boomerangs at 120 degree to each other
             for (int i = 0; i < 3; i++) {
                 Vector2 position = player.Center + (flyRadius * new Vector2((float) Math.Cos(dirAngle), (float) Math.Sin(dirAngle)));
                 Main.EntitySpriteDraw((Texture2D) ModContent.Request<Texture2D>("BTDMod/Projectiles/Boomerang/GlaiveLordRing"), position - Main.screenPosition,
