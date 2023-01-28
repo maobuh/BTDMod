@@ -9,22 +9,22 @@ namespace BTDMod.Items.DartMonkey
     {
         public override void SetDefaults()
         {
-            Item.damage = 30;
+            Item.damage = 20;
             Item.noMelee = true;
-            Item.DamageType = DamageClass.Generic;
+            Item.DamageType = DamageClass.Melee;
             Item.shoot = ModContent.ProjectileType<Dart>();
             Item.shootSpeed = 10;
             Item.useTime = 30;
             Item.useAnimation = 30;
-            Item.useStyle = ItemUseStyleID.MowTheLawn;
-            Item.rare = ItemRarityID.Green;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.rare = ItemRarityID.Blue;
             Item.autoReuse = true;
             Item.width = 32;
             Item.height = 32;
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dart Monkey 0-0-0");
+            DisplayName.SetDefault("Dart Monkey");
             Tooltip.SetDefault("shoots dart");
         }
         public override void AddRecipes()

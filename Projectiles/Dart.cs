@@ -18,6 +18,7 @@ namespace BTDMod.Projectiles
             Projectile.height = 32;
             Projectile.width = 20;
             Projectile.aiStyle = ProjAIStyleID.Arrow;
+			Projectile.localNPCHitCooldown = 0;
         }
         public override void AI()
         {

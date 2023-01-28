@@ -4,6 +4,9 @@ using Terraria.ModLoader;
 using BTDMod.Projectiles;
 using BTDMod.Buffs;
 using BTDMod.NPCs;
+using Terraria.DataStructures;
+using Microsoft.Xna.Framework;
+using System;
 
 namespace BTDMod.Items.Sniper
 {
@@ -15,14 +18,14 @@ namespace BTDMod.Items.Sniper
         public override void SetDefaults()
         {
             Item.CloneDefaults(ModContent.ItemType<Sniper000>());
-            Item.damage = 80;
+            Item.damage = 60;
             Item.rare = ItemRarityID.LightRed;
             Item.shoot = ModContent.ProjectileType<BouncingBullet>();
         }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sniper Monkey 0-4-0");
-            Tooltip.SetDefault("Bullets bounce up to 3 times on nearby enemies\nAbility summons a Supply Drop that drops hearts upon death");
+            Tooltip.SetDefault("Bullets bounce up to 3 times on nearby enemies\nBullets gain 20% damage every bounce\nAbility summons a Supply Drop that drops hearts upon death");
         }
         public override void HoldItem(Player player)
         {
@@ -32,10 +35,16 @@ namespace BTDMod.Items.Sniper
                 player.AddBuff(ModContent.BuffType<SupplyDropCooldown>(), ABILITY_COOLDOWN);
             }
         }
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 1);
+            return false;
+        }
         public override void AddRecipes()
         {
             Recipe recipe = Recipe.Create(Item.type);
             recipe.AddIngredient(null, "Sniper030", 1);
+            recipe.AddTile(TileID.MythrilAnvil);
 
             Recipe recipe2 = recipe.Clone();
 

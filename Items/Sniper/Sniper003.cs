@@ -11,10 +11,9 @@ namespace BTDMod.Items.Sniper
             Item.CloneDefaults(ModContent.ItemType<Sniper000>());
             Item.damage = 15;
             Item.rare = ItemRarityID.Green;
-            Item.useTime = 6;
+            Item.useTime = 8;
             Item.knockBack = 2;
-            Item.useAnimation = 6;
-            Item.shoot = ProjectileID.Bullet;
+            Item.useAnimation = 8;
         }
         public override void SetStaticDefaults()
         {
@@ -26,6 +25,7 @@ namespace BTDMod.Items.Sniper
             Recipe recipe = Recipe.Create(Item.type);
             recipe.AddIngredient(null, "Sniper000", 1);
             recipe.AddIngredient(ItemID.JungleSpores, 8);
+            recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }
     }
