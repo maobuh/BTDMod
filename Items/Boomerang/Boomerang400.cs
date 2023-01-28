@@ -30,6 +30,7 @@ namespace BTDMod.Items.Boomerang {
         {
             Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.HellstoneBar, 5);
+            recipe.AddIngredient(null, "Boomerang300", 1);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }
