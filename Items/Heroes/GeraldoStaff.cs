@@ -1,7 +1,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using BTDMod.Projectiles;
 
 namespace BTDMod.Items.Heroes
 {
@@ -12,7 +11,7 @@ namespace BTDMod.Items.Heroes
             Item.damage = 1;
             Item.noMelee = true;
             Item.DamageType = DamageClass.Magic;
-            Item.shoot = ModContent.ProjectileType<GeraldoLightning>(); // fuck im gonna have to make lightning still
+            Item.shoot = ModContent.ProjectileType<Projectiles.Heroes.GeraldoLightning>(); // fuck im gonna have to make lightning still
             Item.shootSpeed = 10;
             Item.useTime = 5;
             Item.useAnimation = 5;
