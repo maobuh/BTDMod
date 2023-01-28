@@ -9,7 +9,6 @@ namespace BTDMod.Projectiles.Boomerang
 {
     class Glaive : ModProjectile
     {
-        protected int maxBounces = 10;
         protected float maxDetectRadius = 320f;
         // an array that stores npcs that have already been hit by the bullet
         NPC[] alreadyHit = new NPC[30];
@@ -21,7 +20,7 @@ namespace BTDMod.Projectiles.Boomerang
         {
             Projectile.width = 42;
             Projectile.height = 40;
-            Projectile.penetrate = maxBounces;
+            Projectile.penetrate = 10;
             Projectile.alpha = 0;
             Projectile.light = 0.5f;
             Projectile.friendly = true;
