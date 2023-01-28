@@ -22,7 +22,7 @@ namespace BTDMod.Items.Druid
             baseUseTime = Item.useTime;
             Item.useAnimation = 27;
             Item.useStyle = ItemUseStyleID.MowTheLawn;
-            Item.rare = ItemRarityID.Green;
+            Item.rare = ItemRarityID.Blue;
             Item.autoReuse = true;
             Item.width = 32;
             Item.height = 32;

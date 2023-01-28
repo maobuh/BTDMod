@@ -20,7 +20,7 @@ namespace BTDMod.Items.Druid
             Item.useTime = 30;
             Item.useAnimation = 30;
             Item.useStyle = ItemUseStyleID.MowTheLawn;
-            Item.rare = ItemRarityID.Green;
+            Item.rare = ItemRarityID.Blue;
             Item.autoReuse = true;
             Item.width = 32;
             Item.height = 32;
@@ -51,7 +51,7 @@ namespace BTDMod.Items.Druid
         public override void AddRecipes()
         {
             Recipe recipe = Recipe.Create(Item.type);
-            recipe.AddIngredient(ItemID.CopperShortsword, 5);
+            recipe.AddIngredient(ItemID.CopperShortsword, 1);
             recipe.Register();
         }
     }
