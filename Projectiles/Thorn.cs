@@ -12,7 +12,7 @@ namespace BTDMod.Projectiles
             Projectile.friendly = true;
             Projectile.height = 34;
             Projectile.width = 34;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 1;
             Projectile.extraUpdates = 2;
             Projectile.localNPCHitCooldown = 0;
         }

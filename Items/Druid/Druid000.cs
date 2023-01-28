@@ -14,13 +14,13 @@ namespace BTDMod.Items.Druid
         {
             Item.damage = 15;
             Item.noMelee = true;
-            Item.DamageType = DamageClass.Generic;
+            Item.DamageType = DamageClass.Magic;
             Item.shoot = ModContent.ProjectileType<Thorn>();
             Item.shootSpeed = 10;
             Item.useTime = 30;
             Item.useAnimation = 30;
             Item.useStyle = ItemUseStyleID.MowTheLawn;
-            Item.rare = 2;
+            Item.rare = ItemRarityID.Blue;
             Item.autoReuse = true;
             Item.width = 32;
             Item.height = 32;
@@ -29,6 +29,7 @@ namespace BTDMod.Items.Druid
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Druid Monkey");
+            Tooltip.SetDefault("Shoots a blast of thorns for each attack. ");
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
@@ -50,7 +51,7 @@ namespace BTDMod.Items.Druid
         public override void AddRecipes()
         {
             Recipe recipe = Recipe.Create(Item.type);
-            recipe.AddIngredient(ItemID.CopperShortsword, 5);
+            recipe.AddIngredient(ItemID.CopperShortsword, 1);
             recipe.Register();
         }
     }
