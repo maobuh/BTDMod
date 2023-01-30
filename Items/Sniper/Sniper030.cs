@@ -10,7 +10,7 @@ namespace BTDMod.Items.Sniper
         public override void SetDefaults()
         {
             Item.CloneDefaults(ModContent.ItemType<Sniper000>());
-            Item.damage = 30;
+            Item.damage = 35;
             Item.rare = ItemRarityID.Green;
             Item.shoot = ModContent.ProjectileType<BouncingBullet>();
         }

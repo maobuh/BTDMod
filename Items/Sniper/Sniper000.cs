@@ -8,7 +8,7 @@ namespace BTDMod.Items.Sniper
     {
         public override void SetDefaults()
         {
-            Item.damage = 10;
+            Item.damage = 20;
             Item.knockBack = 8;
             Item.useTime = 20;
             Item.useAnimation = 20;
