@@ -29,9 +29,12 @@ namespace BTDMod.Items.Boomerang {
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.DemoniteBar, 5);
             recipe.AddTile(TileID.Anvils);
+            Recipe recipe2 = recipe.Clone();
+            recipe.AddIngredient(ItemID.DemoniteBar, 5);
+            recipe2.AddIngredient(ItemID.CrimtaneBar, 5);
             recipe.Register();
+            recipe2.Register();
         }
     }
 }
