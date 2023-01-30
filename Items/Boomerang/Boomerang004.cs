@@ -30,7 +30,7 @@ namespace BTDMod.Items.Boomerang {
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.Prismite, 1);
+            recipe.AddIngredient(ItemID.CrystalShard, 1);
             recipe.AddIngredient(null, "Boomerang003", 1);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
