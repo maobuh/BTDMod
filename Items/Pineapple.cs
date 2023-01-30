@@ -18,8 +18,8 @@ namespace BTDMod.Items
             Item.shoot = ModContent.ProjectileType<Projectiles.Pineapple>();
             Item.shootSpeed = 0;
             Item.useTime = 60;
-            Item.useAnimation = 1;
-            Item.useStyle = ItemUseStyleID.MowTheLawn;
+            Item.useAnimation = 60;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.value = Item.sellPrice(0, 0, 0, 20);
             Item.rare = ItemRarityID.Green;
             Item.autoReuse = true;
