@@ -12,7 +12,7 @@ namespace BTDMod.Items
             Item.damage = 1;
             Item.noMelee = true;
             Item.DamageType = DamageClass.Generic;
-            Item.shoot = ModContent.ProjectileType<Thorn>();
+            Item.shoot = ModContent.ProjectileType<Lightning>();
             Item.shootSpeed = 10;
             Item.useTime = 5;
             Item.useAnimation = 5;
