@@ -6,8 +6,11 @@ SPIRIT OF THE FOREST/DRUID OF THE JUNGLE WILL CRASH YOUR GAME IN MULTIPLAYER
 making btd inspired items in terraria
 
 Primary Monkeys: Melee
+
 Military Monkeys: Ranged
+
 Magic Monkeys: Magic...
+
 Support Monkeys: Summon
 
 Monkeys made so far:
