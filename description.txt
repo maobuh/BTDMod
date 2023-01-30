@@ -1,1 +1,19 @@
-btdmod is a pretty cool mod, it does...this. Modify this file with a description of your mod.
+THIS MOD HAS NOT BEEN TESTED IN MULTIPLAYER
+this mod is nowhere near done
+DRUID MONKEY HAS NO SPRITES RIGHT NOW
+SPIRIT OF THE FOREST/DRUID OF THE JUNGLE WILL CRASH YOUR GAME IN MULTIPLAYER
+
+making btd inspired items in terraria
+
+boomerang monkey
+
+dart monkey
+no bottom path one yet
+druid monkey
+no top path one yet
+engineer monkey
+no bottom path (if anyone has ideas please help)
+sniper monkey
+
+wizard monkey
+no 050 yet
