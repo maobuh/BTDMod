@@ -49,7 +49,7 @@ namespace BTDMod.Items.Boomerang {
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.FragmentSolar, 3);
+            recipe.AddIngredient(ItemID.LunarBar, 3);
             recipe.AddIngredient(null, "Boomerang040", 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.Register();
