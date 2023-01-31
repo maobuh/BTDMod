@@ -56,6 +56,9 @@ namespace BTDMod.Items.TackShooter
             recipe.AddIngredient(ItemID.SoulofFright, 1);
             recipe.AddIngredient(ItemID.SoulofSight, 1);
             recipe.AddIngredient(ItemID.SoulofMight, 1);
+            recipe.AddIngredient(ItemID.SoulofFlight, 1);
+            recipe.AddIngredient(ItemID.SoulofLight, 1);
+            recipe.AddIngredient(ItemID.SoulofNight, 1);
             recipe.Register();
         }
     }
