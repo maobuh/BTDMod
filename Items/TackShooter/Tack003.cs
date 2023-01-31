@@ -14,7 +14,7 @@ namespace BTDMod.Items.TackShooter
         const int NUM_NAILS = 16;
         public override void SetDefaults()
         {
-            Item.damage = 20;
+            Item.damage = 30;
             Item.noMelee = true;
             Item.DamageType = DamageClass.Melee;
             Item.shoot = ModContent.ProjectileType<Nail>();
