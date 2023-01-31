@@ -21,7 +21,7 @@ namespace BTDMod.Items.DartMonkey
             Item.useTime = 30;
             Item.useAnimation = 30;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.rare = ItemRarityID.Blue;
+            Item.rare = ItemRarityID.Pink;
             Item.autoReuse = true;
             Item.width = 32;
             Item.height = 32;
