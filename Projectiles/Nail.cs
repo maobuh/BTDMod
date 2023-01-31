@@ -16,6 +16,8 @@ namespace BTDMod.Projectiles
             Projectile.scale = 1f;
             Projectile.timeLeft = 180;
             Projectile.DamageType = DamageClass.Summon;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
         }
         public override void AI()
         {
