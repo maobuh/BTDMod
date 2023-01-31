@@ -12,7 +12,7 @@ namespace BTDMod.Items.Druid
     {
         public override void SetDefaults()
         {
-            Item.damage = 15;
+            Item.damage = 2;
             Item.noMelee = true;
             Item.DamageType = DamageClass.Magic;
             Item.shoot = ModContent.ProjectileType<Thorn>();
@@ -24,7 +24,7 @@ namespace BTDMod.Items.Druid
             Item.autoReuse = true;
             Item.width = 32;
             Item.height = 32;
-            Item.mana = 1;
+            Item.mana = 2;
         }
         public override void SetStaticDefaults()
         {
