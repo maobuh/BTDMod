@@ -13,7 +13,7 @@ namespace BTDMod.Items.Druid
         int baseUseTime;
         public override void SetDefaults()
         {
-            Item.damage = 2;
+            Item.damage = 4;
             Item.noMelee = true;
             Item.DamageType = DamageClass.Magic;
             Item.shoot = ModContent.ProjectileType<Thorn>();

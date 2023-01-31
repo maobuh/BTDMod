@@ -30,7 +30,7 @@ namespace BTDMod.Items.Boomerang {
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.Duck, 1);
+            recipe.AddIngredient(ItemID.Bunny, 1);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }
