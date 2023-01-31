@@ -23,7 +23,7 @@ namespace BTDMod.Items.Engineer
 		}
 
 		public override void SetDefaults() {
-			Item.damage = 15;
+			Item.damage = 20;
 			Item.knockBack = 3f;
 			Item.width = 34;
 			Item.height = 34;
