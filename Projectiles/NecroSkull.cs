@@ -24,7 +24,7 @@ namespace BTDMod.Projectiles
         {
             Projectile.width = 18;
             Projectile.height = 16;
-            Projectile.penetrate = 3;
+            Projectile.penetrate = 1;
             Projectile.alpha = 0;
             Projectile.light = 0.5f;
             Projectile.friendly = true;
