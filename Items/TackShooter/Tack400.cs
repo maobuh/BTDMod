@@ -8,22 +8,23 @@ using System;
 
 namespace BTDMod.Items.TackShooter
 {
-    class Tack005 : ModItem
+    class Tack400 : ModItem
     {
         const double DEGREE = Math.PI / 180;
-        const int NUM_NAILS = 32;
+        const int NUM_NAILS = 18;
+        double baseAngle;
         public override void SetDefaults()
         {
-            Item.damage = 100;
+            Item.damage = 20;
             Item.noMelee = true;
             Item.DamageType = DamageClass.Melee;
-            Item.shoot = ModContent.ProjectileType<Nail>();
+            Item.shoot = ModContent.ProjectileType<FlameBreath>();
             Item.shootSpeed = 18;
-            Item.useTime = 5;
-            Item.useAnimation = 5;
+            Item.useTime = 6;
+            Item.useAnimation = 6;
             Item.knockBack = 3;
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.rare = ItemRarityID.Lime;
+            Item.rare = ItemRarityID.Green;
             Item.autoReuse = true;
             Item.width = 36;
             Item.height = 36;
@@ -31,28 +32,30 @@ namespace BTDMod.Items.TackShooter
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tack Shooter 0-0-5");
-            Tooltip.SetDefault("I think you know what the skull means.");
+            DisplayName.SetDefault("Tack Shooter 4-0-0");
+            Tooltip.SetDefault("Flames of anger");
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
 			const double spread = 360 / NUM_NAILS * DEGREE;
             float baseSpeed = velocity.Length();
-            double baseAngle = Math.Atan2(velocity.X, velocity.Y);
-			// makes nails shoot out in a circle
+            baseAngle += 0.1f;
+			// makes flames shoot out in a circle
 			for (int i = 0; i < NUM_NAILS; i++)
 			{
 				double angle = baseAngle + (i * spread);
 				Vector2 newVelocity = new(baseSpeed * (float)Math.Sin(angle), baseSpeed * (float)Math.Cos(angle));
-				Projectile.NewProjectile(source, position, newVelocity, type, damage, 0, player.whoAmI);
+				Projectile proj = Projectile.NewProjectileDirect(source, position, newVelocity, type, damage, 0, player.whoAmI);
+                proj.scale = 5f;
+                proj.tileCollide = false;
 			}
 			return false;
 		}
         public override void AddRecipes()
         {
             Recipe recipe = Recipe.Create(Item.type);
-            recipe.AddIngredient(null, "Tack004", 1);
-            recipe.AddIngredient(ItemID.Ectoplasm, 3);
+            recipe.AddIngredient(null, "Tack000", 1);
+            recipe.AddIngredient(ItemID.HellstoneBar, 3);
             recipe.Register();
         }
     }
