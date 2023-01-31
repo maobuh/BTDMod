@@ -12,7 +12,7 @@ namespace BTDMod.Items.Boomerang {
             Item.noMelee = true;
             Item.DamageType = DamageClass.Melee;
             Item.shoot = ModContent.ProjectileType<Projectiles.Boomerang.MOARGlaive>();
-            Item.shootSpeed = 10;
+            Item.shootSpeed = 18;
             Item.useTime = 30;
             Item.useAnimation = 30;
             Item.useStyle = ItemUseStyleID.Shoot;
