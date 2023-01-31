@@ -6,10 +6,15 @@ THERE ARE NO BLOONS IN THE GAME RIGHT NOW
 
 making btd inspired items in terraria
 
+Primary Monkeys: Melee
+Military Monkeys: Ranged
+Magic Monkeys: Magic...
+Support Monkeys: Summon
+
 boomerang monkey
 
 dart monkey
-no bottom path one yet
+
 druid monkey
 no top path one yet
 engineer monkey
@@ -18,3 +23,5 @@ sniper monkey
 
 wizard monkey
 no 050 yet
+tack shooter
+no top path yet
