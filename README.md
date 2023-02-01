@@ -14,9 +14,10 @@ Magic Monkeys: Magic...
 Support Monkeys: Summon
 
 Monkeys made so far:
-- Boomerang Monkey
-- Dart Monkey (no bottom path one yet)
-- Druid Monkey (no top path one yet)
-- Wizard Monkey (no 050 yet)
-- engineer monkey (no bottom path, if anyone has ideas please help)
-- sniper monkey
+- Boomerang 
+- Dart (no bottom path one yet)
+- Druid (no top path one yet)
+- Wizard (no 050 yet)
+- Engineer (no bottom path, if anyone has ideas please help)
+- Sniper 
+- Tack
