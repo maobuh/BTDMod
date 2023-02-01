@@ -15,7 +15,7 @@ namespace BTDMod.Items.DartMonkey
             Item.shootSpeed = 50;
             Item.useTime = 10;
             Item.useAnimation = 10;
-            Item.useStyle = ItemUseStyleID.MowTheLawn;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.rare = ItemRarityID.Lime;
             Item.autoReuse = true;
             Item.width = 32;
