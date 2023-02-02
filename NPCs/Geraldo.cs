@@ -9,6 +9,7 @@ using System.Collections.Generic;
 
 namespace BTDMod.NPCs
 {
+	[AutoloadHead]
 	public class Geraldo : ModNPC
 	{
 		public override void SetStaticDefaults() {
@@ -147,7 +148,7 @@ namespace BTDMod.NPCs
 		}
 		public override void OnKill () {
 			// TODO make geraldos stick
-			Item.NewItem(NPC.GetSource_DropAsItem(), NPC.Center, NPC.Center, ModContent.ItemType<Items.Heroes.GeraldoStaff>());
+			// Item.NewItem(NPC.GetSource_DropAsItem(), NPC.Center, NPC.Center, ModContent.ItemType<Items.Heroes.GeraldoStaff>());
 		}
 
 		// Make this Town NPC teleport to the King and/or Queen statue when triggered.
@@ -165,7 +166,7 @@ namespace BTDMod.NPCs
 		}
 		// make this shoot the staff projectile
 		public override void TownNPCAttackProj(ref int projType, ref int attackDelay) {
-			projType = ModContent.ProjectileType<GeraldoLightning>();
+			// projType = ModContent.ProjectileType<GeraldoLightning>();
 			attackDelay = 1;
 		}
 
