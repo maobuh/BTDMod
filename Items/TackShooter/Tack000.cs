@@ -10,7 +10,6 @@ namespace BTDMod.Items.TackShooter
 {
     class Tack000 : ModItem
     {
-        const double DEGREE = Math.PI / 180;
         const int NUM_NAILS = 8;
         public override void SetDefaults()
         {
@@ -36,15 +35,15 @@ namespace BTDMod.Items.TackShooter
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
-			const double spread = 360 / NUM_NAILS * DEGREE;
+			const float spread = 2 * (float)Math.PI / NUM_NAILS;
             float baseSpeed = velocity.Length();
-            double baseAngle = Math.Atan2(velocity.X, velocity.Y);
-			// makes 8 nails shoot out in a circle
+            double angle = Math.Atan2(velocity.X, velocity.Y);
+			// makes nails shoot out in a circle
 			for (int i = 0; i < NUM_NAILS; i++)
 			{
-				double angle = baseAngle + (i * spread);
 				Vector2 newVelocity = new(baseSpeed * (float)Math.Sin(angle), baseSpeed * (float)Math.Cos(angle));
 				Projectile.NewProjectile(source, position, newVelocity, type, damage, 0, player.whoAmI);
+                angle += spread;
 			}
 			return false;
 		}
