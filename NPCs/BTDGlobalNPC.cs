@@ -28,9 +28,12 @@ namespace BTDMod.NPCs
         }
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {
+            // don't put this debuff on bosses
+            // queen bee will be permanently frozen if she is slowed during her charge
             if (Slowed) {
                 npc.velocity = npc.oldVelocity / 2;
             }
+            // 50 damage / sec
             if (Dissolving)
             {
                 if (npc.lifeRegen > 0) {
@@ -43,6 +46,7 @@ namespace BTDMod.NPCs
                     damage = 10;
                 }
             }
+            // 100 damage / sec
             if (DissolvingPlus)
             {
                 if (npc.lifeRegen > 0) {
