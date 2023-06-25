@@ -47,7 +47,7 @@ namespace BTDMod.Projectiles.Glue
                 float angle = initAngle + (i * angleDiff);
                 Vector2 dustVel = new((float)Math.Cos(angle), (float)Math.Sin(angle));
                 dustVel *= projVel / 5;
-                Dust dust = Main.dust[Dust.NewDust(dustPos, 0, 0, DustID.Honey)];
+                Dust dust = Main.dust[Dust.NewDust(dustPos, 0, 0, DustID.Clentaminator_Green)];
                 dust.noGravity = true;
                 dust.scale = 1.5f;
                 dust.velocity = dustVel;
@@ -56,7 +56,7 @@ namespace BTDMod.Projectiles.Glue
                 float angle = initAngle - (i * angleDiff);
                 Vector2 dustVel = new((float)Math.Cos(angle), (float)Math.Sin(angle));
                 dustVel *= projVel / 5;
-                Dust dust = Main.dust[Dust.NewDust(dustPos, 0, 0, DustID.Honey)];
+                Dust dust = Main.dust[Dust.NewDust(dustPos, 0, 0, DustID.Clentaminator_Green)];
                 dust.noGravity = true;
                 dust.scale = 1.5f;
                 dust.velocity = dustVel;
