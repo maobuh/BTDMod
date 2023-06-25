@@ -21,3 +21,4 @@ Monkeys made so far:
 - Engineer (no bottom path, if anyone has ideas please help)
 - Sniper 
 - Tack
+- Glue (top path)
