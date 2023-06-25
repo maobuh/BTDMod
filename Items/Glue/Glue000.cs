@@ -19,7 +19,7 @@ namespace BTDMod.Items.Glue
             Item.rare = ItemRarityID.Green;
             Item.autoReuse = true;
             Item.width = 28;
-            Item.height = 20;
+            Item.height = 12;
         }
         public override void SetStaticDefaults()
         {
